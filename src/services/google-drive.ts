@@ -1,75 +1,83 @@
-import { google } from "googleapis";
-import { Readable } from "stream";
+import { google } from 'googleapis'
+import { Readable } from 'stream'
 
-const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
-
-const serviceAccountJson = process.env.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON;
-const parentFolderId = process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID;
-
-if (!serviceAccountJson) {
-    throw new Error("Missing GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON environment variable.");
+function getDriveClient() {
+    const credentials = JSON.parse(process.env.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON!)
+    const auth = new google.auth.JWT({
+        email: credentials.client_email,
+        key: credentials.private_key,
+        scopes: ['https://www.googleapis.com/auth/drive.file'],
+    })
+    return google.drive({ version: 'v3', auth })
 }
 
-const credentials = JSON.parse(serviceAccountJson);
+/**
+ * Resolves or creates a specific subfolder inside the root parent directory
+ */
+async function getOrCreateCategoryFolder(categoryName: string): Promise<string> {
+    const drive = getDriveClient()
+    const rootFolderId = process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID!
 
-const auth = new google.auth.JWT({
-    email: credentials.client_email,
-    key: credentials.private_key.replace(/\\n/g, "\n"),
-    scopes: SCOPES,
-});
+    // Check if folder already exists under this specific category name
+    const response = await drive.files.list({
+        q: `name = '${categoryName}' and '${rootFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
+        fields: 'files(id)',
+    })
 
-const drive = google.drive({
-    version: "v3",
-    auth,
-});
+    if (response.data.files && response.data.files.length > 0) {
+        return response.data.files[0].id!
+    }
 
-export interface UploadResponse {
-    fileId: string;
-    driveLink: string;
-    previewLink: string;
-    mimeType: string;
+    // Create a brand new target subfolder if not found
+    const folderMetadata = {
+        name: categoryName,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: [rootFolderId],
+    }
+
+    const folder = await drive.files.create({
+        requestBody: folderMetadata,
+        fields: 'id',
+    })
+
+    return folder.data.id!
 }
 
 export async function uploadToDrive(
     fileBuffer: Buffer,
     fileName: string,
-    mimeType: string
-): Promise<UploadResponse> {
-    const bufferStream = Readable.from(fileBuffer);
+    mimeType: string,
+    categoryName: string // Injected category identifier
+) {
+    const drive = getDriveClient()
+
+    // Resolve category routing location dynamically
+    const targetFolderId = await getOrCreateCategoryFolder(categoryName)
+
+    const bufferStream = new Readable()
+    bufferStream.push(fileBuffer)
+    bufferStream.push(null)
 
     const response = await drive.files.create({
         requestBody: {
             name: fileName,
-            ...(parentFolderId ? { parents: [parentFolderId] } : {}),
+            parents: [targetFolderId],
         },
-        media: {
-            mimeType,
-            body: bufferStream,
-        },
-        fields: "id",
-        supportsAllDrives: true,
-    });
+        media: { mimeType, body: bufferStream },
+        fields: 'id, webViewLink',
+    })
 
-    const fileId = response.data.id;
+    const fileId = response.data.id!
 
-    if (!fileId) {
-        throw new Error("Google Drive upload failed. No file ID was returned.");
-    }
-
+    // Grant public read visibility instantly for embed access
     await drive.permissions.create({
         fileId,
-        requestBody: {
-            type: "anyone",
-            role: "reader",
-            allowFileDiscovery: false,
-        },
-        supportsAllDrives: true,
-    });
+        requestBody: { role: 'reader', type: 'anyone' },
+    })
 
     return {
         fileId,
-        driveLink: `https://drive.google.com/file/d/${fileId}/view`,
+        driveLink: response.data.webViewLink!,
         previewLink: `https://drive.google.com/file/d/${fileId}/preview`,
-        mimeType,
-    };
+    }
 }
