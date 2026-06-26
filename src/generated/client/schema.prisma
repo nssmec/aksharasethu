@@ -1,10 +1,10 @@
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/client" 
+  output   = "../src/generated/client"
 }
 
 enum UserRole {
@@ -20,15 +20,15 @@ enum DocumentStatus {
 }
 
 model User {
-  id         String       @id @default(uuid())
-  name       String
-  email      String       @unique
-  avatar     String?
-  role       UserRole     @default(STUDENT)
-  createdAt  DateTime     @default(now()) @map("created_at")
-  documents  Document[]
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  avatar      String?
+  role        UserRole     @default(STUDENT)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  documents   Document[]
   collections Collection[]
-  bookmarks  Bookmark[]
+  bookmarks   Bookmark[]
 
   @@map("users")
 }
@@ -36,7 +36,7 @@ model User {
 model Category {
   id        String     @id @default(uuid())
   name      String     @unique
-  icon      String?    // Lucid icon key string
+  icon      String? // Lucid icon key string
   documents Document[]
 
   @@map("categories")
@@ -55,7 +55,7 @@ model Document {
   driveLink    String         @map("drive_link")
   previewLink  String         @map("preview_link")
   thumbnail    String?
-  size         Int            // File size in bytes
+  size         Int // File size in bytes
   downloads    Int            @default(0)
   views        Int            @default(0)
   status       DocumentStatus @default(PENDING)
@@ -63,11 +63,11 @@ model Document {
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
 
-  uploader     User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
-  category     Category       @relation(fields: [categoryId], references: [id])
-  categoryId   String         @map("category_id")
-  bookmarks    Bookmark[]
-  tags         DocumentTag[]
+  uploader   User          @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+  category   Category      @relation(fields: [categoryId], references: [id])
+  categoryId String        @map("category_id")
+  bookmarks  Bookmark[]
+  tags       DocumentTag[]
 
   @@index([status, createdAt(sort: Desc)])
   @@index([department, semester])
@@ -108,8 +108,8 @@ model Bookmark {
   documentId String   @map("document_id")
   createdAt  DateTime @default(now()) @map("created_at")
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@unique([userId, documentId])
   @@map("bookmarks")
