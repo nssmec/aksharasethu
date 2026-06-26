@@ -1,0 +1,117 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  GUEST
+  STUDENT
+  ADMIN
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id         String       @id @default(uuid())
+  name       String
+  email      String       @unique
+  avatar     String?
+  role       UserRole     @default(STUDENT)
+  createdAt  DateTime     @default(now()) @map("created_at")
+  documents  Document[]
+  collections Collection[]
+  bookmarks  Bookmark[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  icon      String?    // Lucid icon key string
+  documents Document[]
+
+  @@map("categories")
+}
+
+model Document {
+  id           String         @id @default(uuid())
+  title        String
+  description  String?        @db.Text
+  department   String
+  semester     String
+  subject      String
+  academicYear String         @map("academic_year")
+  author       String?
+  driveFileId  String         @unique @map("drive_file_id")
+  driveLink    String         @map("drive_link")
+  previewLink  String         @map("preview_link")
+  thumbnail    String?
+  size         Int            // File size in bytes
+  downloads    Int            @default(0)
+  views        Int            @default(0)
+  status       DocumentStatus @default(PENDING)
+  uploadedBy   String         @map("uploaded_by")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  uploader     User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+  category     Category       @relation(fields: [categoryId], references: [id])
+  categoryId   String         @map("category_id")
+  bookmarks    Bookmark[]
+  tags         DocumentTag[]
+
+  @@index([status, createdAt(sort: Desc)])
+  @@index([department, semester])
+  @@map("documents")
+}
+
+model Tag {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  documents DocumentTag[]
+
+  @@map("tags")
+}
+
+model DocumentTag {
+  documentId String   @map("document_id")
+  tagId      String   @map("tag_id")
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([documentId, tagId])
+  @@map("document_tags")
+}
+
+model Collection {
+  id        String   @id @default(uuid())
+  name      String
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("collections")
+}
+
+model Bookmark {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  documentId String   @map("document_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, documentId])
+  @@map("bookmarks")
+}
