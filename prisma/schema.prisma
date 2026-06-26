@@ -1,5 +1,5 @@
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 generator client {
@@ -20,37 +20,46 @@ enum DocumentStatus {
 }
 
 model User {
-  id         String       @id @default(uuid())
-  name       String
-  email      String       @unique
-  avatar     String?
-  role       UserRole     @default(STUDENT)
-  createdAt  DateTime     @default(now()) @map("created_at")
-  documents  Document[]
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  avatar      String?
+  role        UserRole     @default(STUDENT)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  documents   Document[]
   collections Collection[]
-  bookmarks  Bookmark[]
+  bookmarks   Bookmark[]
 
   @@map("users")
 }
 
 model Category {
-  id        String     @id @default(uuid())
-  name      String     @unique
-  icon      String?    // Lucid icon key string
-  documents Document[]
+  id            String        @id @default(uuid())
+  name          String        @unique // e.g., "Academics", "Fiction", "Non-Fiction"
+  icon          String?       // Lucid icon key string
+  subCategories SubCategory[]
+  documents     Document[]
 
   @@map("categories")
+}
+
+model SubCategory {
+  id         String     @id @default(uuid())
+  name       String     // e.g., "Computer Science", "Sci-Fi", "Biography", "Poetry"
+  categoryId String     @map("category_id")
+  category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  documents  Document[]
+
+  // Ensures subcategory names are unique within their specific parent category
+  @@unique([name, categoryId])
+  @@map("sub_categories")
 }
 
 model Document {
   id           String         @id @default(uuid())
   title        String
   description  String?        @db.Text
-  department   String
-  semester     String
-  subject      String
-  academicYear String         @map("academic_year")
-  author       String?
+  author       String?        @default("Unknown Author")
   driveFileId  String         @unique @map("drive_file_id")
   driveLink    String         @map("drive_link")
   previewLink  String         @map("preview_link")
@@ -63,14 +72,22 @@ model Document {
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
 
+  // --- ACADEMIC SPECIFIC METADATA (Optional / Nullable for general literature) ---
+  department   String[]
+  semester     String?
+  subject      String?
+
+  // --- RELATIONSHIPS ---
   uploader     User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
   category     Category       @relation(fields: [categoryId], references: [id])
   categoryId   String         @map("category_id")
+  subCategory  SubCategory?   @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String?       @map("sub_category_id")
   bookmarks    Bookmark[]
   tags         DocumentTag[]
 
   @@index([status, createdAt(sort: Desc)])
-  @@index([department, semester])
+  @@index([semester])
   @@map("documents")
 }
 
