@@ -13,13 +13,14 @@ interface CategoryItem {
     name: string
 }
 
-// Fixed institution department structures matching your configuration mapping parameters
+// Fixed institution department structures including specific reading day variations
 const ACADEMIC_DEPARTMENTS = ['CS', 'CU', 'EC', 'EEE', 'MECH', 'EB', 'EV']
 
 export default function UploadPage() {
     const router = useRouter()
     const [categories, setCategories] = useState<CategoryItem[]>([])
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('')
+    const [selectedDepts, setSelectedDepts] = useState<string[]>([])
     const [isCheckingAuth, setIsCheckingAuth] = useState(true)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -45,6 +46,13 @@ export default function UploadPage() {
 
         initializePage()
     }, [router])
+
+    // Toggle department inside array selection map state
+    const toggleDepartment = (dept: string) => {
+        setSelectedDepts((prev) =>
+            prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
+        )
+    }
 
     const selectedCategoryName = categories.find(c => c.id === selectedCategoryId)?.name || ''
     const isAcademicSelected = selectedCategoryName.toLowerCase() === 'academics'
@@ -104,29 +112,38 @@ export default function UploadPage() {
                 </div>
 
                 {/* Dynamic Section: Renders academic controls exclusively when Academics is focused */}
-                {/* Dynamic Section: Renders academic controls exclusively when Academics is focused */}
                 {isAcademicSelected ? (
                     <div className="space-y-6 p-5 bg-neutral-50/70 border border-neutral-100 rounded-xl animate-in fade-in slide-in-from-top-2 duration-200">
                         <div className="pb-1 border-b border-neutral-200/60">
                             <span className="text-[10px] font-bold tracking-widest text-neutral-400 uppercase">Institutional Curricular Tags</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            {/* Department Dropdown */}
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Department</label>
-                                <select
-                                    name="department"
-                                    required
-                                    className="w-full h-10 rounded-xl border border-neutral-200 text-xs px-3 bg-white outline-none focus:border-neutral-950 transition-all"
-                                >
-                                    <option value="" disabled selected>Select Dept...</option>
-                                    {ACADEMIC_DEPARTMENTS.map((dept) => (
-                                        <option key={dept} value={dept}>{dept}</option>
-                                    ))}
-                                </select>
+                        {/* Multi-Select Department Badges Block */}
+                        <div className="space-y-2">
+                            <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider block">Select Departments (Select all that apply)</label>
+                            <div className="flex flex-wrap gap-2">
+                                {ACADEMIC_DEPARTMENTS.map((dept) => {
+                                    const isSelected = selectedDepts.includes(dept)
+                                    return (
+                                        <button
+                                            key={dept}
+                                            type="button"
+                                            onClick={() => toggleDepartment(dept)}
+                                            className={`px-3 py-1.5 rounded-xl border text-xs font-medium transition-all duration-150 outline-none ${isSelected
+                                                ? 'bg-neutral-900 border-neutral-900 text-white shadow-sm'
+                                                : 'bg-white border-neutral-200 text-neutral-600 hover:border-neutral-400'
+                                                }`}
+                                        >
+                                            {dept}
+                                        </button>
+                                    )
+                                })}
                             </div>
+                            {/* Encoded payload sent safely across form bounds */}
+                            <input type="hidden" name="departments" value={JSON.stringify(selectedDepts)} />
+                        </div>
 
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Semester Dropdown */}
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Semester</label>
@@ -152,7 +169,7 @@ export default function UploadPage() {
                 ) : (
                     /* Fallback parameters to prevent Form-Data key loss on general books */
                     <>
-                        <input type="hidden" name="department" value="" />
+                        <input type="hidden" name="departments" value="[]" />
                         <input type="hidden" name="semester" value="" />
                         <input type="hidden" name="subject" value="" />
                     </>

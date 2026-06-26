@@ -34,43 +34,60 @@ model User {
 }
 
 model Category {
-  id        String     @id @default(uuid())
-  name      String     @unique
-  icon      String? // Lucid icon key string
-  documents Document[]
+  id            String        @id @default(uuid())
+  name          String        @unique // e.g., "Academics", "Fiction", "Non-Fiction"
+  icon          String? // Lucid icon key string
+  subCategories SubCategory[]
+  documents     Document[]
 
   @@map("categories")
 }
 
-model Document {
-  id           String         @id @default(uuid())
-  title        String
-  description  String?        @db.Text
-  department   String
-  semester     String
-  subject      String
-  academicYear String         @map("academic_year")
-  author       String?
-  driveFileId  String         @unique @map("drive_file_id")
-  driveLink    String         @map("drive_link")
-  previewLink  String         @map("preview_link")
-  thumbnail    String?
-  size         Int // File size in bytes
-  downloads    Int            @default(0)
-  views        Int            @default(0)
-  status       DocumentStatus @default(PENDING)
-  uploadedBy   String         @map("uploaded_by")
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
+model SubCategory {
+  id         String     @id @default(uuid())
+  name       String // e.g., "Computer Science", "Sci-Fi", "Biography", "Poetry"
+  categoryId String     @map("category_id")
+  category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  documents  Document[]
 
-  uploader   User          @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
-  category   Category      @relation(fields: [categoryId], references: [id])
-  categoryId String        @map("category_id")
-  bookmarks  Bookmark[]
-  tags       DocumentTag[]
+  // Ensures subcategory names are unique within their specific parent category
+  @@unique([name, categoryId])
+  @@map("sub_categories")
+}
+
+model Document {
+  id          String         @id @default(uuid())
+  title       String
+  description String?        @db.Text
+  author      String?        @default("Unknown Author")
+  driveFileId String         @unique @map("drive_file_id")
+  driveLink   String         @map("drive_link")
+  previewLink String         @map("preview_link")
+  thumbnail   String?
+  size        Int // File size in bytes
+  downloads   Int            @default(0)
+  views       Int            @default(0)
+  status      DocumentStatus @default(PENDING)
+  uploadedBy  String         @map("uploaded_by")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  // --- ACADEMIC SPECIFIC METADATA (Optional / Nullable for general literature) ---
+  department String[]
+  semester   String?
+  subject    String?
+
+  // --- RELATIONSHIPS ---
+  uploader      User          @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+  category      Category      @relation(fields: [categoryId], references: [id])
+  categoryId    String        @map("category_id")
+  subCategory   SubCategory?  @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String?       @map("sub_category_id")
+  bookmarks     Bookmark[]
+  tags          DocumentTag[]
 
   @@index([status, createdAt(sort: Desc)])
-  @@index([department, semester])
+  @@index([semester])
   @@map("documents")
 }
 

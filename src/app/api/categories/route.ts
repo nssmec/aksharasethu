@@ -9,6 +9,7 @@ export async function GET() {
         })
         return NextResponse.json(categories)
     } catch (error) {
+        console.error('Failed to stream categories contexts:', (error as Error).message)
         return NextResponse.json({ error: 'Failed to stream categories contexts' }, { status: 500 })
     }
 }

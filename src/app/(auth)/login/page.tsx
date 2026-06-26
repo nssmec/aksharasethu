@@ -31,7 +31,7 @@ export default function LoginPage() {
                         <CardTitle className="text-2xl font-serif font-normal tracking-tight text-neutral-900">
                             Welcome to Aksharasethu
                         </CardTitle>
-                        <CardDescription className="text-neutral-500 text-xs max-w-[280px] mx-auto font-light leading-relaxed">
+                        <CardDescription className="text-neutral-500 text-xs max-w-70 mx-auto font-light leading-relaxed">
                             The official digital archive and academic resource gateway of NSS Model Engineering College.
                         </CardDescription>
                     </CardHeader>

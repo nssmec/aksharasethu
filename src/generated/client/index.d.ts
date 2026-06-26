@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 /**
+ * Model SubCategory
+ * 
+ */
+export type SubCategory = $Result.DefaultSelection<Prisma.$SubCategoryPayload>
+/**
  * Model Document
  * 
  */
@@ -220,6 +225,16 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subCategory`: Exposes CRUD operations for the **SubCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubCategories
+    * const subCategories = await prisma.subCategory.findMany()
+    * ```
+    */
+  get subCategory(): Prisma.SubCategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.document`: Exposes CRUD operations for the **Document** model.
@@ -706,6 +721,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Category: 'Category',
+    SubCategory: 'SubCategory',
     Document: 'Document',
     Tag: 'Tag',
     DocumentTag: 'DocumentTag',
@@ -726,7 +742,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "document" | "tag" | "documentTag" | "collection" | "bookmark"
+      modelProps: "user" | "category" | "subCategory" | "document" | "tag" | "documentTag" | "collection" | "bookmark"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -875,6 +891,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CategoryCountArgs<ExtArgs>
             result: $Utils.Optional<CategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubCategory: {
+        payload: Prisma.$SubCategoryPayload<ExtArgs>
+        fields: Prisma.SubCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.SubCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.SubCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.SubCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.SubCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.SubCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          update: {
+            args: Prisma.SubCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubCategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.SubCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubCategory>
+          }
+          groupBy: {
+            args: Prisma.SubCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<SubCategoryCountAggregateOutputType> | number
           }
         }
       }
@@ -1358,6 +1448,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     category?: CategoryOmit
+    subCategory?: SubCategoryOmit
     document?: DocumentOmit
     tag?: TagOmit
     documentTag?: DocumentTagOmit
@@ -1492,10 +1583,12 @@ export namespace Prisma {
    */
 
   export type CategoryCountOutputType = {
+    subCategories: number
     documents: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subCategories?: boolean | CategoryCountOutputTypeCountSubCategoriesArgs
     documents?: boolean | CategoryCountOutputTypeCountDocumentsArgs
   }
 
@@ -1513,7 +1606,45 @@ export namespace Prisma {
   /**
    * CategoryCountOutputType without action
    */
+  export type CategoryCountOutputTypeCountSubCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubCategoryWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
   export type CategoryCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
+
+  /**
+   * Count Type SubCategoryCountOutputType
+   */
+
+  export type SubCategoryCountOutputType = {
+    documents: number
+  }
+
+  export type SubCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documents?: boolean | SubCategoryCountOutputTypeCountDocumentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubCategoryCountOutputType without action
+   */
+  export type SubCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategoryCountOutputType
+     */
+    select?: SubCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubCategoryCountOutputType without action
+   */
+  export type SubCategoryCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
   }
 
@@ -2885,6 +3016,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     icon?: boolean
+    subCategories?: boolean | Category$subCategoriesArgs<ExtArgs>
     documents?: boolean | Category$documentsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -2909,6 +3041,7 @@ export namespace Prisma {
 
   export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "icon", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subCategories?: boolean | Category$subCategoriesArgs<ExtArgs>
     documents?: boolean | Category$documentsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2918,6 +3051,7 @@ export namespace Prisma {
   export type $CategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Category"
     objects: {
+      subCategories: Prisma.$SubCategoryPayload<ExtArgs>[]
       documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3318,6 +3452,7 @@ export namespace Prisma {
    */
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    subCategories<T extends Category$subCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Category$subCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends Category$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Category$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3744,6 +3879,30 @@ export namespace Prisma {
   }
 
   /**
+   * Category.subCategories
+   */
+  export type Category$subCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    where?: SubCategoryWhereInput
+    orderBy?: SubCategoryOrderByWithRelationInput | SubCategoryOrderByWithRelationInput[]
+    cursor?: SubCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubCategoryScalarFieldEnum | SubCategoryScalarFieldEnum[]
+  }
+
+  /**
    * Category.documents
    */
   export type Category$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3787,6 +3946,1073 @@ export namespace Prisma {
 
 
   /**
+   * Model SubCategory
+   */
+
+  export type AggregateSubCategory = {
+    _count: SubCategoryCountAggregateOutputType | null
+    _min: SubCategoryMinAggregateOutputType | null
+    _max: SubCategoryMaxAggregateOutputType | null
+  }
+
+  export type SubCategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    categoryId: string | null
+  }
+
+  export type SubCategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    categoryId: string | null
+  }
+
+  export type SubCategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    categoryId: number
+    _all: number
+  }
+
+
+  export type SubCategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    categoryId?: true
+  }
+
+  export type SubCategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    categoryId?: true
+  }
+
+  export type SubCategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    categoryId?: true
+    _all?: true
+  }
+
+  export type SubCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubCategory to aggregate.
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubCategories to fetch.
+     */
+    orderBy?: SubCategoryOrderByWithRelationInput | SubCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubCategories
+    **/
+    _count?: true | SubCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubCategoryMaxAggregateInputType
+  }
+
+  export type GetSubCategoryAggregateType<T extends SubCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubCategory[P]>
+      : GetScalarType<T[P], AggregateSubCategory[P]>
+  }
+
+
+
+
+  export type SubCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubCategoryWhereInput
+    orderBy?: SubCategoryOrderByWithAggregationInput | SubCategoryOrderByWithAggregationInput[]
+    by: SubCategoryScalarFieldEnum[] | SubCategoryScalarFieldEnum
+    having?: SubCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubCategoryCountAggregateInputType | true
+    _min?: SubCategoryMinAggregateInputType
+    _max?: SubCategoryMaxAggregateInputType
+  }
+
+  export type SubCategoryGroupByOutputType = {
+    id: string
+    name: string
+    categoryId: string
+    _count: SubCategoryCountAggregateOutputType | null
+    _min: SubCategoryMinAggregateOutputType | null
+    _max: SubCategoryMaxAggregateOutputType | null
+  }
+
+  type GetSubCategoryGroupByPayload<T extends SubCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], SubCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    categoryId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    documents?: boolean | SubCategory$documentsArgs<ExtArgs>
+    _count?: boolean | SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subCategory"]>
+
+  export type SubCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    categoryId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subCategory"]>
+
+  export type SubCategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    categoryId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subCategory"]>
+
+  export type SubCategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    categoryId?: boolean
+  }
+
+  export type SubCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "categoryId", ExtArgs["result"]["subCategory"]>
+  export type SubCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    documents?: boolean | SubCategory$documentsArgs<ExtArgs>
+    _count?: boolean | SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SubCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+  export type SubCategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $SubCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubCategory"
+    objects: {
+      category: Prisma.$CategoryPayload<ExtArgs>
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      categoryId: string
+    }, ExtArgs["result"]["subCategory"]>
+    composites: {}
+  }
+
+  type SubCategoryGetPayload<S extends boolean | null | undefined | SubCategoryDefaultArgs> = $Result.GetResult<Prisma.$SubCategoryPayload, S>
+
+  type SubCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubCategoryCountAggregateInputType | true
+    }
+
+  export interface SubCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubCategory'], meta: { name: 'SubCategory' } }
+    /**
+     * Find zero or one SubCategory that matches the filter.
+     * @param {SubCategoryFindUniqueArgs} args - Arguments to find a SubCategory
+     * @example
+     * // Get one SubCategory
+     * const subCategory = await prisma.subCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubCategoryFindUniqueArgs>(args: SelectSubset<T, SubCategoryFindUniqueArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubCategory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubCategoryFindUniqueOrThrowArgs} args - Arguments to find a SubCategory
+     * @example
+     * // Get one SubCategory
+     * const subCategory = await prisma.subCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, SubCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryFindFirstArgs} args - Arguments to find a SubCategory
+     * @example
+     * // Get one SubCategory
+     * const subCategory = await prisma.subCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubCategoryFindFirstArgs>(args?: SelectSubset<T, SubCategoryFindFirstArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryFindFirstOrThrowArgs} args - Arguments to find a SubCategory
+     * @example
+     * // Get one SubCategory
+     * const subCategory = await prisma.subCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, SubCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubCategories
+     * const subCategories = await prisma.subCategory.findMany()
+     * 
+     * // Get first 10 SubCategories
+     * const subCategories = await prisma.subCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subCategoryWithIdOnly = await prisma.subCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubCategoryFindManyArgs>(args?: SelectSubset<T, SubCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubCategory.
+     * @param {SubCategoryCreateArgs} args - Arguments to create a SubCategory.
+     * @example
+     * // Create one SubCategory
+     * const SubCategory = await prisma.subCategory.create({
+     *   data: {
+     *     // ... data to create a SubCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubCategoryCreateArgs>(args: SelectSubset<T, SubCategoryCreateArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubCategories.
+     * @param {SubCategoryCreateManyArgs} args - Arguments to create many SubCategories.
+     * @example
+     * // Create many SubCategories
+     * const subCategory = await prisma.subCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubCategoryCreateManyArgs>(args?: SelectSubset<T, SubCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubCategories and returns the data saved in the database.
+     * @param {SubCategoryCreateManyAndReturnArgs} args - Arguments to create many SubCategories.
+     * @example
+     * // Create many SubCategories
+     * const subCategory = await prisma.subCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubCategories and only return the `id`
+     * const subCategoryWithIdOnly = await prisma.subCategory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, SubCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubCategory.
+     * @param {SubCategoryDeleteArgs} args - Arguments to delete one SubCategory.
+     * @example
+     * // Delete one SubCategory
+     * const SubCategory = await prisma.subCategory.delete({
+     *   where: {
+     *     // ... filter to delete one SubCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubCategoryDeleteArgs>(args: SelectSubset<T, SubCategoryDeleteArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubCategory.
+     * @param {SubCategoryUpdateArgs} args - Arguments to update one SubCategory.
+     * @example
+     * // Update one SubCategory
+     * const subCategory = await prisma.subCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubCategoryUpdateArgs>(args: SelectSubset<T, SubCategoryUpdateArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubCategories.
+     * @param {SubCategoryDeleteManyArgs} args - Arguments to filter SubCategories to delete.
+     * @example
+     * // Delete a few SubCategories
+     * const { count } = await prisma.subCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubCategoryDeleteManyArgs>(args?: SelectSubset<T, SubCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubCategories
+     * const subCategory = await prisma.subCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubCategoryUpdateManyArgs>(args: SelectSubset<T, SubCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubCategories and returns the data updated in the database.
+     * @param {SubCategoryUpdateManyAndReturnArgs} args - Arguments to update many SubCategories.
+     * @example
+     * // Update many SubCategories
+     * const subCategory = await prisma.subCategory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubCategories and only return the `id`
+     * const subCategoryWithIdOnly = await prisma.subCategory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubCategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, SubCategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubCategory.
+     * @param {SubCategoryUpsertArgs} args - Arguments to update or create a SubCategory.
+     * @example
+     * // Update or create a SubCategory
+     * const subCategory = await prisma.subCategory.upsert({
+     *   create: {
+     *     // ... data to create a SubCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubCategoryUpsertArgs>(args: SelectSubset<T, SubCategoryUpsertArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryCountArgs} args - Arguments to filter SubCategories to count.
+     * @example
+     * // Count the number of SubCategories
+     * const count = await prisma.subCategory.count({
+     *   where: {
+     *     // ... the filter for the SubCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubCategoryCountArgs>(
+      args?: Subset<T, SubCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubCategoryAggregateArgs>(args: Subset<T, SubCategoryAggregateArgs>): Prisma.PrismaPromise<GetSubCategoryAggregateType<T>>
+
+    /**
+     * Group by SubCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: SubCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubCategory model
+   */
+  readonly fields: SubCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    documents<T extends SubCategory$documentsArgs<ExtArgs> = {}>(args?: Subset<T, SubCategory$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubCategory model
+   */
+  interface SubCategoryFieldRefs {
+    readonly id: FieldRef<"SubCategory", 'String'>
+    readonly name: FieldRef<"SubCategory", 'String'>
+    readonly categoryId: FieldRef<"SubCategory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubCategory findUnique
+   */
+  export type SubCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SubCategory to fetch.
+     */
+    where: SubCategoryWhereUniqueInput
+  }
+
+  /**
+   * SubCategory findUniqueOrThrow
+   */
+  export type SubCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SubCategory to fetch.
+     */
+    where: SubCategoryWhereUniqueInput
+  }
+
+  /**
+   * SubCategory findFirst
+   */
+  export type SubCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SubCategory to fetch.
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubCategories to fetch.
+     */
+    orderBy?: SubCategoryOrderByWithRelationInput | SubCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubCategories.
+     */
+    cursor?: SubCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubCategories.
+     */
+    distinct?: SubCategoryScalarFieldEnum | SubCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * SubCategory findFirstOrThrow
+   */
+  export type SubCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SubCategory to fetch.
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubCategories to fetch.
+     */
+    orderBy?: SubCategoryOrderByWithRelationInput | SubCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubCategories.
+     */
+    cursor?: SubCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubCategories.
+     */
+    distinct?: SubCategoryScalarFieldEnum | SubCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * SubCategory findMany
+   */
+  export type SubCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SubCategories to fetch.
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubCategories to fetch.
+     */
+    orderBy?: SubCategoryOrderByWithRelationInput | SubCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubCategories.
+     */
+    cursor?: SubCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubCategories.
+     */
+    distinct?: SubCategoryScalarFieldEnum | SubCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * SubCategory create
+   */
+  export type SubCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SubCategory.
+     */
+    data: XOR<SubCategoryCreateInput, SubCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * SubCategory createMany
+   */
+  export type SubCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubCategories.
+     */
+    data: SubCategoryCreateManyInput | SubCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubCategory createManyAndReturn
+   */
+  export type SubCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubCategories.
+     */
+    data: SubCategoryCreateManyInput | SubCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubCategory update
+   */
+  export type SubCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SubCategory.
+     */
+    data: XOR<SubCategoryUpdateInput, SubCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which SubCategory to update.
+     */
+    where: SubCategoryWhereUniqueInput
+  }
+
+  /**
+   * SubCategory updateMany
+   */
+  export type SubCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubCategories.
+     */
+    data: XOR<SubCategoryUpdateManyMutationInput, SubCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SubCategories to update
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * Limit how many SubCategories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubCategory updateManyAndReturn
+   */
+  export type SubCategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to update SubCategories.
+     */
+    data: XOR<SubCategoryUpdateManyMutationInput, SubCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SubCategories to update
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * Limit how many SubCategories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubCategory upsert
+   */
+  export type SubCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SubCategory to update in case it exists.
+     */
+    where: SubCategoryWhereUniqueInput
+    /**
+     * In case the SubCategory found by the `where` argument doesn't exist, create a new SubCategory with this data.
+     */
+    create: XOR<SubCategoryCreateInput, SubCategoryUncheckedCreateInput>
+    /**
+     * In case the SubCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubCategoryUpdateInput, SubCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * SubCategory delete
+   */
+  export type SubCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which SubCategory to delete.
+     */
+    where: SubCategoryWhereUniqueInput
+  }
+
+  /**
+   * SubCategory deleteMany
+   */
+  export type SubCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubCategories to delete
+     */
+    where?: SubCategoryWhereInput
+    /**
+     * Limit how many SubCategories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubCategory.documents
+   */
+  export type SubCategory$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * SubCategory without action
+   */
+  export type SubCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Document
    */
 
@@ -3814,10 +5040,6 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    department: string | null
-    semester: string | null
-    subject: string | null
-    academicYear: string | null
     author: string | null
     driveFileId: string | null
     driveLink: string | null
@@ -3830,17 +5052,16 @@ export namespace Prisma {
     uploadedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    semester: string | null
+    subject: string | null
     categoryId: string | null
+    subCategoryId: string | null
   }
 
   export type DocumentMaxAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
-    department: string | null
-    semester: string | null
-    subject: string | null
-    academicYear: string | null
     author: string | null
     driveFileId: string | null
     driveLink: string | null
@@ -3853,17 +5074,16 @@ export namespace Prisma {
     uploadedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    semester: string | null
+    subject: string | null
     categoryId: string | null
+    subCategoryId: string | null
   }
 
   export type DocumentCountAggregateOutputType = {
     id: number
     title: number
     description: number
-    department: number
-    semester: number
-    subject: number
-    academicYear: number
     author: number
     driveFileId: number
     driveLink: number
@@ -3876,7 +5096,11 @@ export namespace Prisma {
     uploadedBy: number
     createdAt: number
     updatedAt: number
+    department: number
+    semester: number
+    subject: number
     categoryId: number
+    subCategoryId: number
     _all: number
   }
 
@@ -3897,10 +5121,6 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    department?: true
-    semester?: true
-    subject?: true
-    academicYear?: true
     author?: true
     driveFileId?: true
     driveLink?: true
@@ -3913,17 +5133,16 @@ export namespace Prisma {
     uploadedBy?: true
     createdAt?: true
     updatedAt?: true
+    semester?: true
+    subject?: true
     categoryId?: true
+    subCategoryId?: true
   }
 
   export type DocumentMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    department?: true
-    semester?: true
-    subject?: true
-    academicYear?: true
     author?: true
     driveFileId?: true
     driveLink?: true
@@ -3936,17 +5155,16 @@ export namespace Prisma {
     uploadedBy?: true
     createdAt?: true
     updatedAt?: true
+    semester?: true
+    subject?: true
     categoryId?: true
+    subCategoryId?: true
   }
 
   export type DocumentCountAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    department?: true
-    semester?: true
-    subject?: true
-    academicYear?: true
     author?: true
     driveFileId?: true
     driveLink?: true
@@ -3959,7 +5177,11 @@ export namespace Prisma {
     uploadedBy?: true
     createdAt?: true
     updatedAt?: true
+    department?: true
+    semester?: true
+    subject?: true
     categoryId?: true
+    subCategoryId?: true
     _all?: true
   }
 
@@ -4053,10 +5275,6 @@ export namespace Prisma {
     id: string
     title: string
     description: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author: string | null
     driveFileId: string
     driveLink: string
@@ -4069,7 +5287,11 @@ export namespace Prisma {
     uploadedBy: string
     createdAt: Date
     updatedAt: Date
+    department: string[]
+    semester: string | null
+    subject: string | null
     categoryId: string
+    subCategoryId: string | null
     _count: DocumentCountAggregateOutputType | null
     _avg: DocumentAvgAggregateOutputType | null
     _sum: DocumentSumAggregateOutputType | null
@@ -4095,10 +5317,6 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    department?: boolean
-    semester?: boolean
-    subject?: boolean
-    academicYear?: boolean
     author?: boolean
     driveFileId?: boolean
     driveLink?: boolean
@@ -4111,9 +5329,14 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    department?: boolean
+    semester?: boolean
+    subject?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
     bookmarks?: boolean | Document$bookmarksArgs<ExtArgs>
     tags?: boolean | Document$tagsArgs<ExtArgs>
     _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
@@ -4123,10 +5346,6 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    department?: boolean
-    semester?: boolean
-    subject?: boolean
-    academicYear?: boolean
     author?: boolean
     driveFileId?: boolean
     driveLink?: boolean
@@ -4139,19 +5358,20 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    department?: boolean
+    semester?: boolean
+    subject?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
   }, ExtArgs["result"]["document"]>
 
   export type DocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     description?: boolean
-    department?: boolean
-    semester?: boolean
-    subject?: boolean
-    academicYear?: boolean
     author?: boolean
     driveFileId?: boolean
     driveLink?: boolean
@@ -4164,19 +5384,20 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    department?: boolean
+    semester?: boolean
+    subject?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
   }, ExtArgs["result"]["document"]>
 
   export type DocumentSelectScalar = {
     id?: boolean
     title?: boolean
     description?: boolean
-    department?: boolean
-    semester?: boolean
-    subject?: boolean
-    academicYear?: boolean
     author?: boolean
     driveFileId?: boolean
     driveLink?: boolean
@@ -4189,13 +5410,18 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    department?: boolean
+    semester?: boolean
+    subject?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
   }
 
-  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "department" | "semester" | "subject" | "academicYear" | "author" | "driveFileId" | "driveLink" | "previewLink" | "thumbnail" | "size" | "downloads" | "views" | "status" | "uploadedBy" | "createdAt" | "updatedAt" | "categoryId", ExtArgs["result"]["document"]>
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "author" | "driveFileId" | "driveLink" | "previewLink" | "thumbnail" | "size" | "downloads" | "views" | "status" | "uploadedBy" | "createdAt" | "updatedAt" | "department" | "semester" | "subject" | "categoryId" | "subCategoryId", ExtArgs["result"]["document"]>
   export type DocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
     bookmarks?: boolean | Document$bookmarksArgs<ExtArgs>
     tags?: boolean | Document$tagsArgs<ExtArgs>
     _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
@@ -4203,10 +5429,12 @@ export namespace Prisma {
   export type DocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
   }
   export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    subCategory?: boolean | Document$subCategoryArgs<ExtArgs>
   }
 
   export type $DocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4214,6 +5442,7 @@ export namespace Prisma {
     objects: {
       uploader: Prisma.$UserPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs>
+      subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
       bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
       tags: Prisma.$DocumentTagPayload<ExtArgs>[]
     }
@@ -4221,10 +5450,6 @@ export namespace Prisma {
       id: string
       title: string
       description: string | null
-      department: string
-      semester: string
-      subject: string
-      academicYear: string
       author: string | null
       driveFileId: string
       driveLink: string
@@ -4237,7 +5462,11 @@ export namespace Prisma {
       uploadedBy: string
       createdAt: Date
       updatedAt: Date
+      department: string[]
+      semester: string | null
+      subject: string | null
       categoryId: string
+      subCategoryId: string | null
     }, ExtArgs["result"]["document"]>
     composites: {}
   }
@@ -4634,6 +5863,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     uploader<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subCategory<T extends Document$subCategoryArgs<ExtArgs> = {}>(args?: Subset<T, Document$subCategoryArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     bookmarks<T extends Document$bookmarksArgs<ExtArgs> = {}>(args?: Subset<T, Document$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Document$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Document$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -4668,10 +5898,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Document", 'String'>
     readonly title: FieldRef<"Document", 'String'>
     readonly description: FieldRef<"Document", 'String'>
-    readonly department: FieldRef<"Document", 'String'>
-    readonly semester: FieldRef<"Document", 'String'>
-    readonly subject: FieldRef<"Document", 'String'>
-    readonly academicYear: FieldRef<"Document", 'String'>
     readonly author: FieldRef<"Document", 'String'>
     readonly driveFileId: FieldRef<"Document", 'String'>
     readonly driveLink: FieldRef<"Document", 'String'>
@@ -4684,7 +5910,11 @@ export namespace Prisma {
     readonly uploadedBy: FieldRef<"Document", 'String'>
     readonly createdAt: FieldRef<"Document", 'DateTime'>
     readonly updatedAt: FieldRef<"Document", 'DateTime'>
+    readonly department: FieldRef<"Document", 'String[]'>
+    readonly semester: FieldRef<"Document", 'String'>
+    readonly subject: FieldRef<"Document", 'String'>
     readonly categoryId: FieldRef<"Document", 'String'>
+    readonly subCategoryId: FieldRef<"Document", 'String'>
   }
     
 
@@ -5083,6 +6313,25 @@ export namespace Prisma {
      * Limit how many Documents to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Document.subCategory
+   */
+  export type Document$subCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    where?: SubCategoryWhereInput
   }
 
   /**
@@ -9363,14 +10612,19 @@ export namespace Prisma {
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+  export const SubCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    categoryId: 'categoryId'
+  };
+
+  export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
+
+
   export const DocumentScalarFieldEnum: {
     id: 'id',
     title: 'title',
     description: 'description',
-    department: 'department',
-    semester: 'semester',
-    subject: 'subject',
-    academicYear: 'academicYear',
     author: 'author',
     driveFileId: 'driveFileId',
     driveLink: 'driveLink',
@@ -9383,7 +10637,11 @@ export namespace Prisma {
     uploadedBy: 'uploadedBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    categoryId: 'categoryId'
+    department: 'department',
+    semester: 'semester',
+    subject: 'subject',
+    categoryId: 'categoryId',
+    subCategoryId: 'subCategoryId'
   };
 
   export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
@@ -9614,6 +10872,7 @@ export namespace Prisma {
     id?: StringFilter<"Category"> | string
     name?: StringFilter<"Category"> | string
     icon?: StringNullableFilter<"Category"> | string | null
+    subCategories?: SubCategoryListRelationFilter
     documents?: DocumentListRelationFilter
   }
 
@@ -9621,6 +10880,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrderInput | SortOrder
+    subCategories?: SubCategoryOrderByRelationAggregateInput
     documents?: DocumentOrderByRelationAggregateInput
   }
 
@@ -9631,6 +10891,7 @@ export namespace Prisma {
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     icon?: StringNullableFilter<"Category"> | string | null
+    subCategories?: SubCategoryListRelationFilter
     documents?: DocumentListRelationFilter
   }, "id" | "name">
 
@@ -9652,6 +10913,55 @@ export namespace Prisma {
     icon?: StringNullableWithAggregatesFilter<"Category"> | string | null
   }
 
+  export type SubCategoryWhereInput = {
+    AND?: SubCategoryWhereInput | SubCategoryWhereInput[]
+    OR?: SubCategoryWhereInput[]
+    NOT?: SubCategoryWhereInput | SubCategoryWhereInput[]
+    id?: StringFilter<"SubCategory"> | string
+    name?: StringFilter<"SubCategory"> | string
+    categoryId?: StringFilter<"SubCategory"> | string
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    documents?: DocumentListRelationFilter
+  }
+
+  export type SubCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    categoryId?: SortOrder
+    category?: CategoryOrderByWithRelationInput
+    documents?: DocumentOrderByRelationAggregateInput
+  }
+
+  export type SubCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name_categoryId?: SubCategoryNameCategoryIdCompoundUniqueInput
+    AND?: SubCategoryWhereInput | SubCategoryWhereInput[]
+    OR?: SubCategoryWhereInput[]
+    NOT?: SubCategoryWhereInput | SubCategoryWhereInput[]
+    name?: StringFilter<"SubCategory"> | string
+    categoryId?: StringFilter<"SubCategory"> | string
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    documents?: DocumentListRelationFilter
+  }, "id" | "name_categoryId">
+
+  export type SubCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    categoryId?: SortOrder
+    _count?: SubCategoryCountOrderByAggregateInput
+    _max?: SubCategoryMaxOrderByAggregateInput
+    _min?: SubCategoryMinOrderByAggregateInput
+  }
+
+  export type SubCategoryScalarWhereWithAggregatesInput = {
+    AND?: SubCategoryScalarWhereWithAggregatesInput | SubCategoryScalarWhereWithAggregatesInput[]
+    OR?: SubCategoryScalarWhereWithAggregatesInput[]
+    NOT?: SubCategoryScalarWhereWithAggregatesInput | SubCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubCategory"> | string
+    name?: StringWithAggregatesFilter<"SubCategory"> | string
+    categoryId?: StringWithAggregatesFilter<"SubCategory"> | string
+  }
+
   export type DocumentWhereInput = {
     AND?: DocumentWhereInput | DocumentWhereInput[]
     OR?: DocumentWhereInput[]
@@ -9659,10 +10969,6 @@ export namespace Prisma {
     id?: StringFilter<"Document"> | string
     title?: StringFilter<"Document"> | string
     description?: StringNullableFilter<"Document"> | string | null
-    department?: StringFilter<"Document"> | string
-    semester?: StringFilter<"Document"> | string
-    subject?: StringFilter<"Document"> | string
-    academicYear?: StringFilter<"Document"> | string
     author?: StringNullableFilter<"Document"> | string | null
     driveFileId?: StringFilter<"Document"> | string
     driveLink?: StringFilter<"Document"> | string
@@ -9675,9 +10981,14 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
+    department?: StringNullableListFilter<"Document">
+    semester?: StringNullableFilter<"Document"> | string | null
+    subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
+    subCategoryId?: StringNullableFilter<"Document"> | string | null
     uploader?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    subCategory?: XOR<SubCategoryNullableScalarRelationFilter, SubCategoryWhereInput> | null
     bookmarks?: BookmarkListRelationFilter
     tags?: DocumentTagListRelationFilter
   }
@@ -9686,10 +10997,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    department?: SortOrder
-    semester?: SortOrder
-    subject?: SortOrder
-    academicYear?: SortOrder
     author?: SortOrderInput | SortOrder
     driveFileId?: SortOrder
     driveLink?: SortOrder
@@ -9702,9 +11009,14 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    department?: SortOrder
+    semester?: SortOrderInput | SortOrder
+    subject?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrderInput | SortOrder
     uploader?: UserOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    subCategory?: SubCategoryOrderByWithRelationInput
     bookmarks?: BookmarkOrderByRelationAggregateInput
     tags?: DocumentTagOrderByRelationAggregateInput
   }
@@ -9717,10 +11029,6 @@ export namespace Prisma {
     NOT?: DocumentWhereInput | DocumentWhereInput[]
     title?: StringFilter<"Document"> | string
     description?: StringNullableFilter<"Document"> | string | null
-    department?: StringFilter<"Document"> | string
-    semester?: StringFilter<"Document"> | string
-    subject?: StringFilter<"Document"> | string
-    academicYear?: StringFilter<"Document"> | string
     author?: StringNullableFilter<"Document"> | string | null
     driveLink?: StringFilter<"Document"> | string
     previewLink?: StringFilter<"Document"> | string
@@ -9732,9 +11040,14 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
+    department?: StringNullableListFilter<"Document">
+    semester?: StringNullableFilter<"Document"> | string | null
+    subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
+    subCategoryId?: StringNullableFilter<"Document"> | string | null
     uploader?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    subCategory?: XOR<SubCategoryNullableScalarRelationFilter, SubCategoryWhereInput> | null
     bookmarks?: BookmarkListRelationFilter
     tags?: DocumentTagListRelationFilter
   }, "id" | "driveFileId">
@@ -9743,10 +11056,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    department?: SortOrder
-    semester?: SortOrder
-    subject?: SortOrder
-    academicYear?: SortOrder
     author?: SortOrderInput | SortOrder
     driveFileId?: SortOrder
     driveLink?: SortOrder
@@ -9759,7 +11068,11 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    department?: SortOrder
+    semester?: SortOrderInput | SortOrder
+    subject?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrderInput | SortOrder
     _count?: DocumentCountOrderByAggregateInput
     _avg?: DocumentAvgOrderByAggregateInput
     _max?: DocumentMaxOrderByAggregateInput
@@ -9774,10 +11087,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Document"> | string
     title?: StringWithAggregatesFilter<"Document"> | string
     description?: StringNullableWithAggregatesFilter<"Document"> | string | null
-    department?: StringWithAggregatesFilter<"Document"> | string
-    semester?: StringWithAggregatesFilter<"Document"> | string
-    subject?: StringWithAggregatesFilter<"Document"> | string
-    academicYear?: StringWithAggregatesFilter<"Document"> | string
     author?: StringNullableWithAggregatesFilter<"Document"> | string | null
     driveFileId?: StringWithAggregatesFilter<"Document"> | string
     driveLink?: StringWithAggregatesFilter<"Document"> | string
@@ -9790,7 +11099,11 @@ export namespace Prisma {
     uploadedBy?: StringWithAggregatesFilter<"Document"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
+    department?: StringNullableListFilter<"Document">
+    semester?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    subject?: StringNullableWithAggregatesFilter<"Document"> | string | null
     categoryId?: StringWithAggregatesFilter<"Document"> | string
+    subCategoryId?: StringNullableWithAggregatesFilter<"Document"> | string | null
   }
 
   export type TagWhereInput = {
@@ -10060,6 +11373,7 @@ export namespace Prisma {
     id?: string
     name: string
     icon?: string | null
+    subCategories?: SubCategoryCreateNestedManyWithoutCategoryInput
     documents?: DocumentCreateNestedManyWithoutCategoryInput
   }
 
@@ -10067,6 +11381,7 @@ export namespace Prisma {
     id?: string
     name: string
     icon?: string | null
+    subCategories?: SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -10074,6 +11389,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategories?: SubCategoryUpdateManyWithoutCategoryNestedInput
     documents?: DocumentUpdateManyWithoutCategoryNestedInput
   }
 
@@ -10081,6 +11397,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategories?: SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -10102,14 +11419,55 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SubCategoryCreateInput = {
+    id?: string
+    name: string
+    category: CategoryCreateNestedOneWithoutSubCategoriesInput
+    documents?: DocumentCreateNestedManyWithoutSubCategoryInput
+  }
+
+  export type SubCategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    categoryId: string
+    documents?: DocumentUncheckedCreateNestedManyWithoutSubCategoryInput
+  }
+
+  export type SubCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
+    documents?: DocumentUpdateManyWithoutSubCategoryNestedInput
+  }
+
+  export type SubCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    documents?: DocumentUncheckedUpdateManyWithoutSubCategoryNestedInput
+  }
+
+  export type SubCategoryCreateManyInput = {
+    id?: string
+    name: string
+    categoryId: string
+  }
+
+  export type SubCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type DocumentCreateInput = {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -10121,8 +11479,12 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
     category: CategoryCreateNestedOneWithoutDocumentsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutDocumentsInput
     bookmarks?: BookmarkCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagCreateNestedManyWithoutDocumentInput
   }
@@ -10131,10 +11493,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -10147,7 +11505,11 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
   }
@@ -10156,10 +11518,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -10171,8 +11529,12 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
     category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutDocumentsNestedInput
     bookmarks?: BookmarkUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUpdateManyWithoutDocumentNestedInput
   }
@@ -10181,10 +11543,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -10197,7 +11555,11 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
     bookmarks?: BookmarkUncheckedUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
   }
@@ -10206,10 +11568,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -10222,17 +11580,17 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
   }
 
   export type DocumentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -10244,16 +11602,15 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DocumentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -10266,7 +11623,11 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TagCreateInput = {
@@ -10607,6 +11968,16 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type SubCategoryListRelationFilter = {
+    every?: SubCategoryWhereInput
+    some?: SubCategoryWhereInput
+    none?: SubCategoryWhereInput
+  }
+
+  export type SubCategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -10623,6 +11994,34 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     icon?: SortOrder
+  }
+
+  export type CategoryScalarRelationFilter = {
+    is?: CategoryWhereInput
+    isNot?: CategoryWhereInput
+  }
+
+  export type SubCategoryNameCategoryIdCompoundUniqueInput = {
+    name: string
+    categoryId: string
+  }
+
+  export type SubCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type SubCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type SubCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    categoryId?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10643,14 +12042,22 @@ export namespace Prisma {
     not?: NestedEnumDocumentStatusFilter<$PrismaModel> | $Enums.DocumentStatus
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type CategoryScalarRelationFilter = {
-    is?: CategoryWhereInput
-    isNot?: CategoryWhereInput
+  export type SubCategoryNullableScalarRelationFilter = {
+    is?: SubCategoryWhereInput | null
+    isNot?: SubCategoryWhereInput | null
   }
 
   export type DocumentTagListRelationFilter = {
@@ -10667,10 +12074,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    department?: SortOrder
-    semester?: SortOrder
-    subject?: SortOrder
-    academicYear?: SortOrder
     author?: SortOrder
     driveFileId?: SortOrder
     driveLink?: SortOrder
@@ -10683,7 +12086,11 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    department?: SortOrder
+    semester?: SortOrder
+    subject?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
   }
 
   export type DocumentAvgOrderByAggregateInput = {
@@ -10696,10 +12103,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    department?: SortOrder
-    semester?: SortOrder
-    subject?: SortOrder
-    academicYear?: SortOrder
     author?: SortOrder
     driveFileId?: SortOrder
     driveLink?: SortOrder
@@ -10712,17 +12115,16 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    semester?: SortOrder
+    subject?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
   }
 
   export type DocumentMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    department?: SortOrder
-    semester?: SortOrder
-    subject?: SortOrder
-    academicYear?: SortOrder
     author?: SortOrder
     driveFileId?: SortOrder
     driveLink?: SortOrder
@@ -10735,7 +12137,10 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    semester?: SortOrder
+    subject?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
   }
 
   export type DocumentSumOrderByAggregateInput = {
@@ -11004,6 +12409,13 @@ export namespace Prisma {
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[]
   }
 
+  export type SubCategoryCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput> | SubCategoryCreateWithoutCategoryInput[] | SubCategoryUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutCategoryInput | SubCategoryCreateOrConnectWithoutCategoryInput[]
+    createMany?: SubCategoryCreateManyCategoryInputEnvelope
+    connect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+  }
+
   export type DocumentCreateNestedManyWithoutCategoryInput = {
     create?: XOR<DocumentCreateWithoutCategoryInput, DocumentUncheckedCreateWithoutCategoryInput> | DocumentCreateWithoutCategoryInput[] | DocumentUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: DocumentCreateOrConnectWithoutCategoryInput | DocumentCreateOrConnectWithoutCategoryInput[]
@@ -11011,11 +12423,32 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type SubCategoryUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput> | SubCategoryCreateWithoutCategoryInput[] | SubCategoryUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutCategoryInput | SubCategoryCreateOrConnectWithoutCategoryInput[]
+    createMany?: SubCategoryCreateManyCategoryInputEnvelope
+    connect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+  }
+
   export type DocumentUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<DocumentCreateWithoutCategoryInput, DocumentUncheckedCreateWithoutCategoryInput> | DocumentCreateWithoutCategoryInput[] | DocumentUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: DocumentCreateOrConnectWithoutCategoryInput | DocumentCreateOrConnectWithoutCategoryInput[]
     createMany?: DocumentCreateManyCategoryInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type SubCategoryUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput> | SubCategoryCreateWithoutCategoryInput[] | SubCategoryUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutCategoryInput | SubCategoryCreateOrConnectWithoutCategoryInput[]
+    upsert?: SubCategoryUpsertWithWhereUniqueWithoutCategoryInput | SubCategoryUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: SubCategoryCreateManyCategoryInputEnvelope
+    set?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    disconnect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    delete?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    connect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    update?: SubCategoryUpdateWithWhereUniqueWithoutCategoryInput | SubCategoryUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: SubCategoryUpdateManyWithWhereWithoutCategoryInput | SubCategoryUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: SubCategoryScalarWhereInput | SubCategoryScalarWhereInput[]
   }
 
   export type DocumentUpdateManyWithoutCategoryNestedInput = {
@@ -11032,6 +12465,20 @@ export namespace Prisma {
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
+  export type SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput> | SubCategoryCreateWithoutCategoryInput[] | SubCategoryUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutCategoryInput | SubCategoryCreateOrConnectWithoutCategoryInput[]
+    upsert?: SubCategoryUpsertWithWhereUniqueWithoutCategoryInput | SubCategoryUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: SubCategoryCreateManyCategoryInputEnvelope
+    set?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    disconnect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    delete?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    connect?: SubCategoryWhereUniqueInput | SubCategoryWhereUniqueInput[]
+    update?: SubCategoryUpdateWithWhereUniqueWithoutCategoryInput | SubCategoryUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: SubCategoryUpdateManyWithWhereWithoutCategoryInput | SubCategoryUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: SubCategoryScalarWhereInput | SubCategoryScalarWhereInput[]
+  }
+
   export type DocumentUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<DocumentCreateWithoutCategoryInput, DocumentUncheckedCreateWithoutCategoryInput> | DocumentCreateWithoutCategoryInput[] | DocumentUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: DocumentCreateOrConnectWithoutCategoryInput | DocumentCreateOrConnectWithoutCategoryInput[]
@@ -11046,6 +12493,66 @@ export namespace Prisma {
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
+  export type CategoryCreateNestedOneWithoutSubCategoriesInput = {
+    create?: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutSubCategoriesInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type DocumentCreateNestedManyWithoutSubCategoryInput = {
+    create?: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput> | DocumentCreateWithoutSubCategoryInput[] | DocumentUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutSubCategoryInput | DocumentCreateOrConnectWithoutSubCategoryInput[]
+    createMany?: DocumentCreateManySubCategoryInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutSubCategoryInput = {
+    create?: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput> | DocumentCreateWithoutSubCategoryInput[] | DocumentUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutSubCategoryInput | DocumentCreateOrConnectWithoutSubCategoryInput[]
+    createMany?: DocumentCreateManySubCategoryInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput = {
+    create?: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutSubCategoriesInput
+    upsert?: CategoryUpsertWithoutSubCategoriesInput
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutSubCategoriesInput, CategoryUpdateWithoutSubCategoriesInput>, CategoryUncheckedUpdateWithoutSubCategoriesInput>
+  }
+
+  export type DocumentUpdateManyWithoutSubCategoryNestedInput = {
+    create?: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput> | DocumentCreateWithoutSubCategoryInput[] | DocumentUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutSubCategoryInput | DocumentCreateOrConnectWithoutSubCategoryInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutSubCategoryInput | DocumentUpsertWithWhereUniqueWithoutSubCategoryInput[]
+    createMany?: DocumentCreateManySubCategoryInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutSubCategoryInput | DocumentUpdateWithWhereUniqueWithoutSubCategoryInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutSubCategoryInput | DocumentUpdateManyWithWhereWithoutSubCategoryInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutSubCategoryNestedInput = {
+    create?: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput> | DocumentCreateWithoutSubCategoryInput[] | DocumentUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutSubCategoryInput | DocumentCreateOrConnectWithoutSubCategoryInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutSubCategoryInput | DocumentUpsertWithWhereUniqueWithoutSubCategoryInput[]
+    createMany?: DocumentCreateManySubCategoryInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutSubCategoryInput | DocumentUpdateWithWhereUniqueWithoutSubCategoryInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutSubCategoryInput | DocumentUpdateManyWithWhereWithoutSubCategoryInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DocumentCreatedepartmentInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutDocumentsInput = {
     create?: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDocumentsInput
@@ -11056,6 +12563,12 @@ export namespace Prisma {
     create?: XOR<CategoryCreateWithoutDocumentsInput, CategoryUncheckedCreateWithoutDocumentsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutDocumentsInput
     connect?: CategoryWhereUniqueInput
+  }
+
+  export type SubCategoryCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<SubCategoryCreateWithoutDocumentsInput, SubCategoryUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutDocumentsInput
+    connect?: SubCategoryWhereUniqueInput
   }
 
   export type BookmarkCreateNestedManyWithoutDocumentInput = {
@@ -11098,6 +12611,11 @@ export namespace Prisma {
     set?: $Enums.DocumentStatus
   }
 
+  export type DocumentUpdatedepartmentInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
     create?: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDocumentsInput
@@ -11112,6 +12630,16 @@ export namespace Prisma {
     upsert?: CategoryUpsertWithoutDocumentsInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutDocumentsInput, CategoryUpdateWithoutDocumentsInput>, CategoryUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type SubCategoryUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<SubCategoryCreateWithoutDocumentsInput, SubCategoryUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutDocumentsInput
+    upsert?: SubCategoryUpsertWithoutDocumentsInput
+    disconnect?: SubCategoryWhereInput | boolean
+    delete?: SubCategoryWhereInput | boolean
+    connect?: SubCategoryWhereUniqueInput
+    update?: XOR<XOR<SubCategoryUpdateToOneWithWhereWithoutDocumentsInput, SubCategoryUpdateWithoutDocumentsInput>, SubCategoryUncheckedUpdateWithoutDocumentsInput>
   }
 
   export type BookmarkUpdateManyWithoutDocumentNestedInput = {
@@ -11456,10 +12984,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11471,7 +12995,11 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     category: CategoryCreateNestedOneWithoutDocumentsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutDocumentsInput
     bookmarks?: BookmarkCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagCreateNestedManyWithoutDocumentInput
   }
@@ -11480,10 +13008,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11495,7 +13019,11 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
   }
@@ -11577,10 +13105,6 @@ export namespace Prisma {
     id?: StringFilter<"Document"> | string
     title?: StringFilter<"Document"> | string
     description?: StringNullableFilter<"Document"> | string | null
-    department?: StringFilter<"Document"> | string
-    semester?: StringFilter<"Document"> | string
-    subject?: StringFilter<"Document"> | string
-    academicYear?: StringFilter<"Document"> | string
     author?: StringNullableFilter<"Document"> | string | null
     driveFileId?: StringFilter<"Document"> | string
     driveLink?: StringFilter<"Document"> | string
@@ -11593,7 +13117,11 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
+    department?: StringNullableListFilter<"Document">
+    semester?: StringNullableFilter<"Document"> | string | null
+    subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
+    subCategoryId?: StringNullableFilter<"Document"> | string | null
   }
 
   export type CollectionUpsertWithWhereUniqueWithoutUserInput = {
@@ -11648,14 +13176,32 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Bookmark"> | Date | string
   }
 
+  export type SubCategoryCreateWithoutCategoryInput = {
+    id?: string
+    name: string
+    documents?: DocumentCreateNestedManyWithoutSubCategoryInput
+  }
+
+  export type SubCategoryUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    name: string
+    documents?: DocumentUncheckedCreateNestedManyWithoutSubCategoryInput
+  }
+
+  export type SubCategoryCreateOrConnectWithoutCategoryInput = {
+    where: SubCategoryWhereUniqueInput
+    create: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type SubCategoryCreateManyCategoryInputEnvelope = {
+    data: SubCategoryCreateManyCategoryInput | SubCategoryCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DocumentCreateWithoutCategoryInput = {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11667,7 +13213,11 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutDocumentsInput
     bookmarks?: BookmarkCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagCreateNestedManyWithoutDocumentInput
   }
@@ -11676,10 +13226,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11692,6 +13238,10 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
+    subCategoryId?: string | null
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutDocumentInput
     tags?: DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
   }
@@ -11704,6 +13254,31 @@ export namespace Prisma {
   export type DocumentCreateManyCategoryInputEnvelope = {
     data: DocumentCreateManyCategoryInput | DocumentCreateManyCategoryInput[]
     skipDuplicates?: boolean
+  }
+
+  export type SubCategoryUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: SubCategoryWhereUniqueInput
+    update: XOR<SubCategoryUpdateWithoutCategoryInput, SubCategoryUncheckedUpdateWithoutCategoryInput>
+    create: XOR<SubCategoryCreateWithoutCategoryInput, SubCategoryUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type SubCategoryUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: SubCategoryWhereUniqueInput
+    data: XOR<SubCategoryUpdateWithoutCategoryInput, SubCategoryUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type SubCategoryUpdateManyWithWhereWithoutCategoryInput = {
+    where: SubCategoryScalarWhereInput
+    data: XOR<SubCategoryUpdateManyMutationInput, SubCategoryUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type SubCategoryScalarWhereInput = {
+    AND?: SubCategoryScalarWhereInput | SubCategoryScalarWhereInput[]
+    OR?: SubCategoryScalarWhereInput[]
+    NOT?: SubCategoryScalarWhereInput | SubCategoryScalarWhereInput[]
+    id?: StringFilter<"SubCategory"> | string
+    name?: StringFilter<"SubCategory"> | string
+    categoryId?: StringFilter<"SubCategory"> | string
   }
 
   export type DocumentUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -11720,6 +13295,124 @@ export namespace Prisma {
   export type DocumentUpdateManyWithWhereWithoutCategoryInput = {
     where: DocumentScalarWhereInput
     data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type CategoryCreateWithoutSubCategoriesInput = {
+    id?: string
+    name: string
+    icon?: string | null
+    documents?: DocumentCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
+    id?: string
+    name: string
+    icon?: string | null
+    documents?: DocumentUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutSubCategoriesInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
+  }
+
+  export type DocumentCreateWithoutSubCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    author?: string | null
+    driveFileId: string
+    driveLink: string
+    previewLink: string
+    thumbnail?: string | null
+    size: number
+    downloads?: number
+    views?: number
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
+    uploader: UserCreateNestedOneWithoutDocumentsInput
+    category: CategoryCreateNestedOneWithoutDocumentsInput
+    bookmarks?: BookmarkCreateNestedManyWithoutDocumentInput
+    tags?: DocumentTagCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutSubCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    author?: string | null
+    driveFileId: string
+    driveLink: string
+    previewLink: string
+    thumbnail?: string | null
+    size: number
+    downloads?: number
+    views?: number
+    status?: $Enums.DocumentStatus
+    uploadedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
+    categoryId: string
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutDocumentInput
+    tags?: DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutSubCategoryInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput>
+  }
+
+  export type DocumentCreateManySubCategoryInputEnvelope = {
+    data: DocumentCreateManySubCategoryInput | DocumentCreateManySubCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryUpsertWithoutSubCategoriesInput = {
+    update: XOR<CategoryUpdateWithoutSubCategoriesInput, CategoryUncheckedUpdateWithoutSubCategoriesInput>
+    create: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutSubCategoriesInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutSubCategoriesInput, CategoryUncheckedUpdateWithoutSubCategoriesInput>
+  }
+
+  export type CategoryUpdateWithoutSubCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    documents?: DocumentUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    documents?: DocumentUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type DocumentUpsertWithWhereUniqueWithoutSubCategoryInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutSubCategoryInput, DocumentUncheckedUpdateWithoutSubCategoryInput>
+    create: XOR<DocumentCreateWithoutSubCategoryInput, DocumentUncheckedCreateWithoutSubCategoryInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutSubCategoryInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutSubCategoryInput, DocumentUncheckedUpdateWithoutSubCategoryInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutSubCategoryInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutSubCategoryInput>
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -11753,17 +13446,36 @@ export namespace Prisma {
     id?: string
     name: string
     icon?: string | null
+    subCategories?: SubCategoryCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutDocumentsInput = {
     id?: string
     name: string
     icon?: string | null
+    subCategories?: SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutDocumentsInput = {
     where: CategoryWhereUniqueInput
     create: XOR<CategoryCreateWithoutDocumentsInput, CategoryUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type SubCategoryCreateWithoutDocumentsInput = {
+    id?: string
+    name: string
+    category: CategoryCreateNestedOneWithoutSubCategoriesInput
+  }
+
+  export type SubCategoryUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    name: string
+    categoryId: string
+  }
+
+  export type SubCategoryCreateOrConnectWithoutDocumentsInput = {
+    where: SubCategoryWhereUniqueInput
+    create: XOR<SubCategoryCreateWithoutDocumentsInput, SubCategoryUncheckedCreateWithoutDocumentsInput>
   }
 
   export type BookmarkCreateWithoutDocumentInput = {
@@ -11854,12 +13566,37 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategories?: SubCategoryUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutDocumentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategories?: SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type SubCategoryUpsertWithoutDocumentsInput = {
+    update: XOR<SubCategoryUpdateWithoutDocumentsInput, SubCategoryUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<SubCategoryCreateWithoutDocumentsInput, SubCategoryUncheckedCreateWithoutDocumentsInput>
+    where?: SubCategoryWhereInput
+  }
+
+  export type SubCategoryUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: SubCategoryWhereInput
+    data: XOR<SubCategoryUpdateWithoutDocumentsInput, SubCategoryUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type SubCategoryUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
+  }
+
+  export type SubCategoryUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookmarkUpsertWithWhereUniqueWithoutDocumentInput = {
@@ -11940,10 +13677,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11955,8 +13688,12 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
     category: CategoryCreateNestedOneWithoutDocumentsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutDocumentsInput
     bookmarks?: BookmarkCreateNestedManyWithoutDocumentInput
   }
 
@@ -11964,10 +13701,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -11980,7 +13713,11 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutDocumentInput
   }
 
@@ -12019,10 +13756,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12034,8 +13767,12 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
     category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutDocumentsNestedInput
     bookmarks?: BookmarkUpdateManyWithoutDocumentNestedInput
   }
 
@@ -12043,10 +13780,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12059,7 +13792,11 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
     bookmarks?: BookmarkUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
@@ -12175,10 +13912,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -12190,8 +13923,12 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
     category: CategoryCreateNestedOneWithoutDocumentsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutDocumentsInput
     tags?: DocumentTagCreateNestedManyWithoutDocumentInput
   }
 
@@ -12199,10 +13936,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -12215,7 +13948,11 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
     tags?: DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
   }
 
@@ -12272,10 +14009,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12287,8 +14020,12 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
     category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutDocumentsNestedInput
     tags?: DocumentTagUpdateManyWithoutDocumentNestedInput
   }
 
@@ -12296,10 +14033,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12312,7 +14045,11 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
@@ -12320,10 +14057,6 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -12335,7 +14068,11 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
     categoryId: string
+    subCategoryId?: string | null
   }
 
   export type CollectionCreateManyUserInput = {
@@ -12354,10 +14091,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12369,7 +14102,11 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutDocumentsNestedInput
     bookmarks?: BookmarkUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUpdateManyWithoutDocumentNestedInput
   }
@@ -12378,10 +14115,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12393,7 +14126,11 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
     bookmarks?: BookmarkUncheckedUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
   }
@@ -12402,10 +14139,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12417,7 +14150,11 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CollectionUpdateWithoutUserInput = {
@@ -12456,14 +14193,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubCategoryCreateManyCategoryInput = {
+    id?: string
+    name: string
+  }
+
   export type DocumentCreateManyCategoryInput = {
     id?: string
     title: string
     description?: string | null
-    department: string
-    semester: string
-    subject: string
-    academicYear: string
     author?: string | null
     driveFileId: string
     driveLink: string
@@ -12476,16 +14214,33 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
+    subCategoryId?: string | null
+  }
+
+  export type SubCategoryUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    documents?: DocumentUpdateManyWithoutSubCategoryNestedInput
+  }
+
+  export type SubCategoryUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    documents?: DocumentUncheckedUpdateManyWithoutSubCategoryNestedInput
+  }
+
+  export type SubCategoryUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type DocumentUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12497,7 +14252,11 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutDocumentsNestedInput
     bookmarks?: BookmarkUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUpdateManyWithoutDocumentNestedInput
   }
@@ -12506,10 +14265,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12522,6 +14277,10 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
     bookmarks?: BookmarkUncheckedUpdateManyWithoutDocumentNestedInput
     tags?: DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
   }
@@ -12530,10 +14289,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    subject?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     driveFileId?: StringFieldUpdateOperationsInput | string
     driveLink?: StringFieldUpdateOperationsInput | string
@@ -12546,6 +14301,102 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DocumentCreateManySubCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    author?: string | null
+    driveFileId: string
+    driveLink: string
+    previewLink: string
+    thumbnail?: string | null
+    size: number
+    downloads?: number
+    views?: number
+    status?: $Enums.DocumentStatus
+    uploadedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    department?: DocumentCreatedepartmentInput | string[]
+    semester?: string | null
+    subject?: string | null
+    categoryId: string
+  }
+
+  export type DocumentUpdateWithoutSubCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFileId?: StringFieldUpdateOperationsInput | string
+    driveLink?: StringFieldUpdateOperationsInput | string
+    previewLink?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutDocumentNestedInput
+    tags?: DocumentTagUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutSubCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFileId?: StringFieldUpdateOperationsInput | string
+    driveLink?: StringFieldUpdateOperationsInput | string
+    previewLink?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    uploadedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutDocumentNestedInput
+    tags?: DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutSubCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFileId?: StringFieldUpdateOperationsInput | string
+    driveLink?: StringFieldUpdateOperationsInput | string
+    previewLink?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    uploadedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DocumentUpdatedepartmentInput | string[]
+    semester?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookmarkCreateManyDocumentInput = {

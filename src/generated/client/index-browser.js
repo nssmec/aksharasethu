@@ -135,14 +135,16 @@ exports.Prisma.CategoryScalarFieldEnum = {
   icon: 'icon'
 };
 
+exports.Prisma.SubCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  categoryId: 'categoryId'
+};
+
 exports.Prisma.DocumentScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  department: 'department',
-  semester: 'semester',
-  subject: 'subject',
-  academicYear: 'academicYear',
   author: 'author',
   driveFileId: 'driveFileId',
   driveLink: 'driveLink',
@@ -155,7 +157,11 @@ exports.Prisma.DocumentScalarFieldEnum = {
   uploadedBy: 'uploadedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  categoryId: 'categoryId'
+  department: 'department',
+  semester: 'semester',
+  subject: 'subject',
+  categoryId: 'categoryId',
+  subCategoryId: 'subCategoryId'
 };
 
 exports.Prisma.TagScalarFieldEnum = {
@@ -211,6 +217,7 @@ exports.DocumentStatus = exports.$Enums.DocumentStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Category: 'Category',
+  SubCategory: 'SubCategory',
   Document: 'Document',
   Tag: 'Tag',
   DocumentTag: 'DocumentTag',
