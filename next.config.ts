@@ -7,7 +7,17 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '25mb',
     },
   },
-  serverExternalPackages: ["@prisma/client", "pg", "@prisma/client-runtime-utils"]
+  serverExternalPackages: ["@prisma/client", "pg", "@prisma/client-runtime-utils"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

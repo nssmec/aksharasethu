@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useSession, signOut } from '@/lib/auth-client'
+import Image from 'next/image'
 
 export default function Navbar() {
     // Better Auth client hook
@@ -12,9 +13,7 @@ export default function Navbar() {
         <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100 px-6 lg:px-16 h-16 flex items-center justify-between transition-all">
             <div className="flex items-center gap-8">
                 <Link href="/" className="flex items-center gap-2.5 group">
-                    <div className="w-7 h-7 rounded-lg bg-neutral-900 flex items-center justify-center transition-transform group-hover:scale-[1.02]">
-                        <span className="text-white font-serif text-sm font-semibold">A</span>
-                    </div>
+                    <Image src="/logo.png" alt="Aksharasethu Logo" width={32} height={32} className="rounded-full" />
                     <span className="font-medium text-sm tracking-tight text-neutral-900 font-sans">
                         aksharasethu
                     </span>
@@ -38,9 +37,11 @@ export default function Navbar() {
                                 </Button>
                             </Link>
                         )}
-                        <Link href="/profile" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
-                            Dashboard
-                        </Link>
+                        {session.user.role === "ADMIN" && (
+                            <Link href="/dashboard" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
+                                Admin Panel
+                            </Link>
+                        )}
                         <Button
                             variant="ghost"
                             size="sm"
