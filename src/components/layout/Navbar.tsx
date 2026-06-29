@@ -1,11 +1,12 @@
-import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
-import { signOut } from '@/actions/auth'
-import { Button } from '@/components/ui/button'
+'use client' // 👈 Essential for hooks
 
-export default async function Navbar() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { useSession, signOut } from '@/lib/auth-client'
+
+export default function Navbar() {
+    // Better Auth client hook
+    const { data: session, isPending } = useSession()
 
     return (
         <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100 px-6 lg:px-16 h-16 flex items-center justify-between transition-all">
@@ -21,12 +22,14 @@ export default async function Navbar() {
 
                 <nav className="hidden md:flex items-center gap-6 text-xs font-medium text-neutral-500">
                     <Link href="/library" className="hover:text-neutral-900 transition-colors">Browse Catalog</Link>
-                    <Link href="/collections" className="hover:text-neutral-900 transition-colors">Curated Hubs</Link>
+                    <Link href="/collections" className="hover:text-romans-neutral-900 transition-colors">Curated Hubs</Link>
                 </nav>
             </div>
 
             <div className="flex items-center gap-4">
-                {user ? (
+                {isPending ? (
+                    <div className="w-20 h-8 bg-neutral-100 animate-pulse rounded-lg" />
+                ) : session ? (
                     <div className="flex items-center gap-4">
                         <Link href="/upload">
                             <Button size="sm" className="h-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white text-xs px-3 font-medium transition-all shadow-sm">
@@ -36,11 +39,14 @@ export default async function Navbar() {
                         <Link href="/profile" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
                             Dashboard
                         </Link>
-                        <form action={signOut}>
-                            <button type="submit" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
-                                Sign Out
-                            </button>
-                        </form>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-neutral-400 hover:text-red-600 transition-colors"
+                            onClick={async () => await signOut()}
+                        >
+                            Sign Out
+                        </Button>
                     </div>
                 ) : (
                     <Link href="/login">
