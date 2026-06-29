@@ -59,7 +59,7 @@ export default async function DocumentDetailPage({ params }: DocumentPageProps) 
                     <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-50 text-[11px] font-sans">
                         <div className="space-y-0.5">
                             <span className="text-neutral-400 font-medium">Department</span>
-                            <p className="font-medium text-neutral-800">{document.department}</p>
+                            <p className="font-medium text-neutral-800">{document.departments}</p>
                         </div>
                         <div className="space-y-0.5">
                             <span className="text-neutral-400 font-medium">Semester</span>
@@ -68,10 +68,6 @@ export default async function DocumentDetailPage({ params }: DocumentPageProps) 
                         <div className="space-y-0.5">
                             <span className="text-neutral-400 font-medium">Subject Module</span>
                             <p className="font-medium text-neutral-800 truncate max-w-30">{document.subject}</p>
-                        </div>
-                        <div className="space-y-0.5">
-                            <span className="text-neutral-400 font-medium">Academic Term</span>
-                            <p className="font-medium text-neutral-800">{document.academicYear}</p>
                         </div>
                     </div>
 

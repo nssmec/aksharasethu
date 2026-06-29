@@ -1,14 +1,13 @@
 import Link from 'next/link'
-import { FileText, Calendar, ArrowUpRight, HardDrive } from 'lucide-react'
+import { FileText, ArrowUpRight, HardDrive } from 'lucide-react'
 
 interface DocumentCardProps {
     document: {
         id: string
         title: string
-        department: string
-        semester: string
-        subject: string
-        academicYear: string
+        departments: string[]
+        semester: string | null
+        subject: string | null
         size: number
         category: { name: string }
     }
@@ -27,7 +26,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
                         {document.category.name}
                     </span>
                     <span className="text-[10px] font-medium tracking-wide text-neutral-400">
-                        {document.department} • {document.semester}
+                        {document.departments.join(' • ')} • {document.semester}
                     </span>
                 </div>
 
@@ -47,9 +46,6 @@ export default function DocumentCard({ document }: DocumentCardProps) {
                     <span className="truncate max-w-30 font-medium text-neutral-500">{document.subject}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-neutral-300" /> {document.academicYear}
-                    </span>
                     <span className="flex items-center gap-1">
                         <HardDrive className="w-3 h-3 text-neutral-300" /> {fileSizeInMB} MB
                     </span>

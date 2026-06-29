@@ -35,7 +35,13 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                         ]
                     } : {},
                     catFilter ? { categoryId: catFilter } : {},
-                    deptFilter ? { department: { equals: deptFilter, mode: 'insensitive' } } : {},
+                    deptFilter
+                        ? {
+                            departments: {
+                                has: deptFilter,
+                            },
+                        }
+                        : {},
                     semFilter ? { semester: { equals: semFilter, mode: 'insensitive' } } : {},
                 ]
             },
