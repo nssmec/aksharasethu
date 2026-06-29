@@ -17,7 +17,7 @@ export const auth = betterAuth({
             // Tells Better Auth to pull the custom role field from Prisma into the active session
             role: {
                 type: "string",
-                required: false,
+                required: true,
                 defaultValue: "STUDENT"
             }
         }

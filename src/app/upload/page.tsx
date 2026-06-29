@@ -33,6 +33,13 @@ export default function UploadPage() {
             return
         }
 
+        if (
+            session.user.role !== "VOLUNTEER" &&
+            session.user.role !== "ADMIN"
+        ) {
+            router.replace('/');
+        }
+
         const loadCategories = async () => {
             try {
                 const res = await fetch('/api/categories')

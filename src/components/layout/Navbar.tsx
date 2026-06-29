@@ -31,11 +31,13 @@ export default function Navbar() {
                     <div className="w-20 h-8 bg-neutral-100 animate-pulse rounded-lg" />
                 ) : session ? (
                     <div className="flex items-center gap-4">
-                        <Link href="/upload">
-                            <Button size="sm" className="h-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white text-xs px-3 font-medium transition-all shadow-sm">
-                                Upload Asset
-                            </Button>
-                        </Link>
+                        {(session.user.role === "VOLUNTEER" || session.user.role === "ADMIN") && (
+                            <Link href="/upload">
+                                <Button size="sm" className="h-8 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white text-xs px-3 font-medium transition-all shadow-sm">
+                                    Upload Asset
+                                </Button>
+                            </Link>
+                        )}
                         <Link href="/profile" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
                             Dashboard
                         </Link>

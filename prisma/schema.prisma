@@ -1,10 +1,11 @@
+
 datasource db {
   provider = "postgresql"
 }
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/client" 
+  output   = "../src/generated/client"
 }
 
 enum UserRole {
@@ -23,23 +24,23 @@ enum DocumentStatus {
 // --- BETTER AUTH CORE MODELS ---
 
 model User {
-  id            String    @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String   @unique
   emailVerified Boolean? @map("email_verified")
-  image         String?   // Renamed from avatar for Better Auth compatibility
-  role          UserRole  @default(STUDENT)
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  image         String? // Renamed from avatar for Better Auth compatibility
+  role          UserRole @default(STUDENT)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   // Better Auth Relations
-  sessions      Session[]
-  accounts      Account[]
+  sessions Session[]
+  accounts Account[]
 
   // Application Relations
-  documents     Document[]
-  collections   Collection[]
-  bookmarks     Bookmark[]
+  documents   Document[]
+  collections Collection[]
+  bookmarks   Bookmark[]
 
   @@map("users")
 }
@@ -56,26 +57,28 @@ model Session {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("sessions")
+  @@index([userId])
 }
 
 model Account {
-  id            String    @id
-  accountId     String
-  providerId    String
-  userId        String
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken   String?
-  refreshToken  String?
-  idToken       String?
-  accessTokenExpiresAt  DateTime? 
-  refreshTokenExpiresAt DateTime? 
-  scope                 String?   
-  expiresAt     DateTime?
-  password      String?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  expiresAt             DateTime?
+  password              String?
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
 
   @@map("accounts")
+  @@index([userId])
 }
 
 model Verification {
@@ -87,6 +90,7 @@ model Verification {
   updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@map("verifications")
+  @@index([identifier])
 }
 
 // --- LIBRARY APPLICATION MODELS ---
@@ -94,7 +98,7 @@ model Verification {
 model Category {
   id            String        @id @default(uuid())
   name          String        @unique // e.g., "Academics", "Fiction", "Non-Fiction"
-  icon          String?       // Lucid icon key string
+  icon          String? // Lucid icon key string
   subCategories SubCategory[]
   documents     Document[]
 
@@ -103,7 +107,7 @@ model Category {
 
 model SubCategory {
   id         String     @id @default(uuid())
-  name       String     // e.g., "Computer Science", "Sci-Fi", "Biography", "Poetry"
+  name       String // e.g., "Computer Science", "Sci-Fi", "Biography", "Poetry"
   categoryId String     @map("category_id")
   category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   documents  Document[]
@@ -113,33 +117,33 @@ model SubCategory {
 }
 
 model Document {
-  id            String         @id @default(uuid())
-  title         String
-  description   String?        @db.Text
-  author        String?        @default("Unknown Author")
-  driveFileId   String         @unique @map("drive_file_id")
-  driveLink     String         @map("drive_link")
-  previewLink   String         @map("preview_link")
-  thumbnail     String?
-  size          Int            // File size in bytes
-  downloads     Int            @default(0)
-  views         Int            @default(0)
-  status        DocumentStatus @default(PENDING)
-  uploadedBy    String         @map("uploaded_by")
-  createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @updatedAt @map("updated_at")
+  id          String         @id @default(uuid())
+  title       String
+  description String?        @db.Text
+  author      String?        @default("Unknown Author")
+  driveFileId String         @unique @map("drive_file_id")
+  driveLink   String         @map("drive_link")
+  previewLink String         @map("preview_link")
+  thumbnail   String?
+  size        Int // File size in bytes
+  downloads   Int            @default(0)
+  views       Int            @default(0)
+  status      DocumentStatus @default(PENDING)
+  uploadedBy  String         @map("uploaded_by")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
 
   // --- ACADEMIC SPECIFIC METADATA ---
-  departments    String[]
-  semester      String?
-  subject       String?
+  departments String[]
+  semester    String?
+  subject     String?
 
   // --- RELATIONSHIPS ---
-  uploader      User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
-  category      Category       @relation(fields: [categoryId], references: [id])
-  categoryId    String         @map("category_id")
-  subCategory   SubCategory?   @relation(fields: [subCategoryId], references: [id])
-  subCategoryId String?        @map("sub_category_id")
+  uploader      User          @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+  category      Category      @relation(fields: [categoryId], references: [id])
+  categoryId    String        @map("category_id")
+  subCategory   SubCategory?  @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String?       @map("sub_category_id")
   bookmarks     Bookmark[]
   tags          DocumentTag[]
 
@@ -182,8 +186,8 @@ model Bookmark {
   documentId String   @map("document_id")
   createdAt  DateTime @default(now()) @map("created_at")
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@unique([userId, documentId])
   @@map("bookmarks")
