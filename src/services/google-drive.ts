@@ -1,83 +1,108 @@
-import { google } from 'googleapis'
-import { Readable } from 'stream'
+import { google } from "googleapis";
+import { Readable } from "stream";
 
-function getDriveClient() {
-    const credentials = JSON.parse(process.env.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON!)
-    const auth = new google.auth.JWT({
-        email: credentials.client_email,
-        key: credentials.private_key,
-        scopes: ['https://www.googleapis.com/auth/drive.file'],
-    })
-    return google.drive({ version: 'v3', auth })
-}
+const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET
+);
 
-/**
- * Resolves or creates a specific subfolder inside the root parent directory
- */
-async function getOrCreateCategoryFolder(categoryName: string): Promise<string> {
-    const drive = getDriveClient()
-    const rootFolderId = process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID!
+oauth2Client.setCredentials({
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+});
 
-    // Check if folder already exists under this specific category name
-    const response = await drive.files.list({
-        q: `name = '${categoryName}' and '${rootFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
-        fields: 'files(id)',
-    })
+const drive = google.drive({
+    version: "v3",
+    auth: oauth2Client,
+});
 
-    if (response.data.files && response.data.files.length > 0) {
-        return response.data.files[0].id!
-    }
+const ROOT_FOLDER_ID = process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID!;
 
-    // Create a brand new target subfolder if not found
-    const folderMetadata = {
-        name: categoryName,
-        mimeType: 'application/vnd.google-apps.folder',
-        parents: [rootFolderId],
+async function getOrCreateCategoryFolder(
+    categoryName: string
+): Promise<string> {
+    const escapedCategory = categoryName.replace(/'/g, "\\'");
+
+    const existing = await drive.files.list({
+        q: [
+            `name='${escapedCategory}'`,
+            `'${ROOT_FOLDER_ID}' in parents`,
+            `mimeType='application/vnd.google-apps.folder'`,
+            `trashed=false`,
+        ].join(" and "),
+        fields: "files(id,name)",
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+    });
+
+    if (existing.data.files?.length) {
+        return existing.data.files[0].id!;
     }
 
     const folder = await drive.files.create({
-        requestBody: folderMetadata,
-        fields: 'id',
-    })
+        requestBody: {
+            name: categoryName,
+            mimeType: "application/vnd.google-apps.folder",
+            parents: [ROOT_FOLDER_ID],
+        },
+        fields: "id",
+        supportsAllDrives: true,
+    });
 
-    return folder.data.id!
+    if (!folder.data.id) {
+        throw new Error("Failed to create category folder.");
+    }
+
+    return folder.data.id;
+}
+
+export interface UploadResponse {
+    fileId: string;
+    driveLink: string;
+    previewLink: string;
 }
 
 export async function uploadToDrive(
     fileBuffer: Buffer,
     fileName: string,
     mimeType: string,
-    categoryName: string // Injected category identifier
-) {
-    const drive = getDriveClient()
+    categoryName: string
+): Promise<UploadResponse> {
+    const folderId = await getOrCreateCategoryFolder(categoryName);
 
-    // Resolve category routing location dynamically
-    const targetFolderId = await getOrCreateCategoryFolder(categoryName)
+    const stream = Readable.from(fileBuffer);
 
-    const bufferStream = new Readable()
-    bufferStream.push(fileBuffer)
-    bufferStream.push(null)
-
-    const response = await drive.files.create({
+    const upload = await drive.files.create({
         requestBody: {
             name: fileName,
-            parents: [targetFolderId],
+            parents: [folderId],
         },
-        media: { mimeType, body: bufferStream },
-        fields: 'id, webViewLink',
-    })
+        media: {
+            mimeType,
+            body: stream,
+        },
+        fields: "id",
+        supportsAllDrives: true,
+    });
 
-    const fileId = response.data.id!
+    const fileId = upload.data.id;
 
-    // Grant public read visibility instantly for embed access
+    if (!fileId) {
+        throw new Error("Google Drive upload failed.");
+    }
+
     await drive.permissions.create({
         fileId,
-        requestBody: { role: 'reader', type: 'anyone' },
-    })
+        requestBody: {
+            type: "anyone",
+            role: "reader",
+            allowFileDiscovery: false,
+        },
+        supportsAllDrives: true,
+    });
 
     return {
         fileId,
-        driveLink: response.data.webViewLink!,
+        driveLink: `https://drive.google.com/file/d/${fileId}/view`,
         previewLink: `https://drive.google.com/file/d/${fileId}/preview`,
-    }
+    };
 }

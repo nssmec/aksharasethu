@@ -6,14 +6,13 @@ import { createClient } from '@/lib/supabase/client'
 import { uploadDocumentAction } from '@/actions/documents'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { UploadCloud, Loader2 } from 'lucide-react'
+import { Link2, Loader2 } from 'lucide-react'
 
 interface CategoryItem {
     id: string
     name: string
 }
 
-// Fixed institution department structures including specific reading day variations
 const ACADEMIC_DEPARTMENTS = ['CS', 'CU', 'EC', 'EEE', 'MECH', 'EB', 'EV']
 
 export default function UploadPage() {
@@ -28,11 +27,7 @@ export default function UploadPage() {
         const initializePage = async () => {
             const supabase = createClient()
             const { data: { user } } = await supabase.auth.getUser()
-
-            if (!user) {
-                router.push('/login')
-                return
-            }
+            if (!user) { router.push('/login'); return }
             setIsCheckingAuth(false)
 
             try {
@@ -43,11 +38,9 @@ export default function UploadPage() {
                 console.error('Failed to load categories context maps:', err)
             }
         }
-
         initializePage()
     }, [router])
 
-    // Toggle department inside array selection map state
     const toggleDepartment = (dept: string) => {
         setSelectedDepts((prev) =>
             prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
@@ -61,7 +54,7 @@ export default function UploadPage() {
         return (
             <div className="min-h-[70vh] flex items-center justify-center gap-2">
                 <Loader2 className="w-5 h-5 animate-spin text-neutral-400" />
-                <span className="text-xs text-neutral-400">Verifying volunteer token mappings...</span>
+                <span className="text-xs text-neutral-400">Verifying session context tokens...</span>
             </div>
         )
     }
@@ -69,11 +62,9 @@ export default function UploadPage() {
     return (
         <main className="max-w-2xl mx-auto py-16 px-6 min-h-screen bg-[#fafafa]">
             <div className="space-y-2 mb-10">
-                <h1 className="text-3xl font-serif font-normal tracking-tight text-neutral-900">
-                    Digital Library Ingestion Desk
-                </h1>
-                <p className="text-neutral-500 text-xs leading-relaxed font-light">
-                    Reading Day digital archive portal. Volunteers can seamlessly contribute text files, novels, reference manuals, and local publications.
+                <h1 className="text-3xl font-serif font-normal tracking-tight text-neutral-900">Digital Library Link Desk</h1>
+                <p className="text-neutral-500 text-xs font-light leading-relaxed">
+                    Reading Day digital index registry. Paste shared public asset URLs below to submit resources for moderation.
                 </p>
             </div>
 
@@ -82,7 +73,6 @@ export default function UploadPage() {
                 action={uploadDocumentAction}
                 className="space-y-6 bg-white p-8 rounded-2xl border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.012)]"
             >
-                {/* Core Metadata Frame */}
                 <div className="space-y-1">
                     <label className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Book or Document Title</label>
                     <Input name="title" required placeholder="e.g., The Alchemist / Compiler Design Core Handbook" className="rounded-xl border-neutral-200 text-sm h-10" />
@@ -111,16 +101,14 @@ export default function UploadPage() {
                     </div>
                 </div>
 
-                {/* Dynamic Section: Renders academic controls exclusively when Academics is focused */}
                 {isAcademicSelected ? (
                     <div className="space-y-6 p-5 bg-neutral-50/70 border border-neutral-100 rounded-xl animate-in fade-in slide-in-from-top-2 duration-200">
                         <div className="pb-1 border-b border-neutral-200/60">
                             <span className="text-[10px] font-bold tracking-widest text-neutral-400 uppercase">Institutional Curricular Tags</span>
                         </div>
 
-                        {/* Multi-Select Department Badges Block */}
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider block">Select Departments (Select all that apply)</label>
+                            <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider block">Target Departments</label>
                             <div className="flex flex-wrap gap-2">
                                 {ACADEMIC_DEPARTMENTS.map((dept) => {
                                     const isSelected = selectedDepts.includes(dept)
@@ -129,9 +117,7 @@ export default function UploadPage() {
                                             key={dept}
                                             type="button"
                                             onClick={() => toggleDepartment(dept)}
-                                            className={`px-3 py-1.5 rounded-xl border text-xs font-medium transition-all duration-150 outline-none ${isSelected
-                                                ? 'bg-neutral-900 border-neutral-900 text-white shadow-sm'
-                                                : 'bg-white border-neutral-200 text-neutral-600 hover:border-neutral-400'
+                                            className={`px-3 py-1.5 rounded-xl border text-xs font-medium transition-all ${isSelected ? 'bg-neutral-900 border-neutral-900 text-white shadow-sm' : 'bg-white border-neutral-200 text-neutral-600'
                                                 }`}
                                         >
                                             {dept}
@@ -139,19 +125,13 @@ export default function UploadPage() {
                                     )
                                 })}
                             </div>
-                            {/* Encoded payload sent safely across form bounds */}
                             <input type="hidden" name="departments" value={JSON.stringify(selectedDepts)} />
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {/* Semester Dropdown */}
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Semester</label>
-                                <select
-                                    name="semester"
-                                    required
-                                    className="w-full h-10 rounded-xl border border-neutral-200 text-xs px-3 bg-white outline-none focus:border-neutral-950 transition-all"
-                                >
+                                <select name="semester" required className="w-full h-10 rounded-xl border border-neutral-200 text-xs px-3 bg-white outline-none">
                                     <option value="" disabled selected>Select Sem...</option>
                                     {['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'].map((sem) => (
                                         <option key={sem} value={sem}>{sem}</option>
@@ -159,7 +139,6 @@ export default function UploadPage() {
                                 </select>
                             </div>
 
-                            {/* Subject Code Input */}
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Subject Code</label>
                                 <Input name="subject" required placeholder="e.g., CST 202" className="rounded-xl border-neutral-200 text-sm h-10 bg-white" />
@@ -167,7 +146,6 @@ export default function UploadPage() {
                         </div>
                     </div>
                 ) : (
-                    /* Fallback parameters to prevent Form-Data key loss on general books */
                     <>
                         <input type="hidden" name="departments" value="[]" />
                         <input type="hidden" name="semester" value="" />
@@ -175,41 +153,35 @@ export default function UploadPage() {
                     </>
                 )}
 
-                {/* Form Description */}
                 <div className="space-y-1">
                     <label className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Short Abstract / Review (Optional)</label>
-                    <textarea
-                        name="description"
-                        placeholder="Provide a brief introductory breakdown of the literature contents..."
-                        className="w-full h-20 rounded-xl border border-neutral-200 text-sm p-3 bg-white outline-none focus:border-neutral-950 transition-all resize-none"
-                    />
+                    <textarea name="description" placeholder="Provide a brief introductory breakdown of the literature contents..." className="w-full h-20 rounded-xl border border-neutral-200 text-sm p-3 bg-white outline-none resize-none" />
                 </div>
 
-                {/* Dropzone Upload Mechanism */}
-                <div className="border border-dashed border-neutral-200 rounded-2xl p-8 text-center bg-neutral-50/40 hover:bg-neutral-50 transition-all duration-200">
-                    <UploadCloud className="mx-auto h-7 w-7 text-neutral-400 mb-2" />
-                    <input
-                        type="file"
-                        name="file"
-                        accept="application/pdf"
+                {/* URL Sharing Entry Point */}
+                <div className="space-y-2 p-5 border border-neutral-200/80 rounded-2xl bg-neutral-50/40">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                        <Link2 className="w-4 h-4 text-neutral-400" />
+                        <span>Google Drive Share Link</span>
+                    </div>
+                    <Input
+                        type="url"
+                        name="driveUrl"
                         required
-                        className="text-xs text-neutral-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-neutral-900 file:text-white hover:file:bg-neutral-800 cursor-pointer"
+                        placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing"
+                        className="rounded-xl border-neutral-200 text-xs h-11 bg-white"
                     />
-                    <p className="text-[10px] text-neutral-400 mt-2">Only multi-page PDF records up to 25MB are parsed securely.</p>
+                    <p className="text-[10px] text-neutral-400">
+                        Make sure permissions are set to <strong>&quot;Anyone with the link can view&quot;</strong> inside Drive before submitting.
+                    </p>
                 </div>
 
                 <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl h-11 font-medium text-xs shadow-sm transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl h-11 font-medium text-xs transition-all flex items-center justify-center gap-2"
                 >
-                    {isSubmitting ? (
-                        <>
-                            <Loader2 className="w-4 h-4 animate-spin" /> Ingesting Asset Stream...
-                        </>
-                    ) : (
-                        'Publish to Reading Day Staging Registry'
-                    )}
+                    {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Registering Asset Link...</> : 'Register Asset in Library Registry'}
                 </Button>
             </form>
         </main>

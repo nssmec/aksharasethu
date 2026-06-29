@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { signInWithGoogle } from '@/actions/auth'
+import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2 } from 'lucide-react'
@@ -13,10 +13,13 @@ export default function LoginPage() {
     const handleLogin = async () => {
         setIsLoading(true)
         try {
-            await signInWithGoogle()
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/library"
+            })
         } catch (error) {
+            console.error('Google Auth Failed:', error)
             setIsLoading(false)
-            console.error('OAuth configuration pipeline initialization failed:', error)
         }
     }
 

@@ -10,6 +10,7 @@ generator client {
 enum UserRole {
   GUEST
   STUDENT
+  VOLUNTEER
   ADMIN
 }
 
@@ -19,19 +20,76 @@ enum DocumentStatus {
   REJECTED
 }
 
+// --- BETTER AUTH CORE MODELS ---
+
 model User {
-  id          String       @id @default(uuid())
-  name        String
-  email       String       @unique
-  avatar      String?
-  role        UserRole     @default(STUDENT)
-  createdAt   DateTime     @default(now()) @map("created_at")
-  documents   Document[]
-  collections Collection[]
-  bookmarks   Bookmark[]
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean? @map("email_verified")
+  image         String?   // Renamed from avatar for Better Auth compatibility
+  role          UserRole  @default(STUDENT)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Better Auth Relations
+  sessions      Session[]
+  accounts      Account[]
+
+  // Application Relations
+  documents     Document[]
+  collections   Collection[]
+  bookmarks     Bookmark[]
 
   @@map("users")
 }
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique // Added for Better Auth v1.0+ compatibility
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("sessions")
+}
+
+model Account {
+  id            String    @id
+  accountId     String
+  providerId    String
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken   String?
+  refreshToken  String?
+  idToken       String?
+  accessTokenExpiresAt  DateTime? 
+  refreshTokenExpiresAt DateTime? 
+  scope                 String?   
+  expiresAt     DateTime?
+  password      String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("verifications")
+}
+
+// --- LIBRARY APPLICATION MODELS ---
 
 model Category {
   id            String        @id @default(uuid())
@@ -50,41 +108,40 @@ model SubCategory {
   category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   documents  Document[]
 
-  // Ensures subcategory names are unique within their specific parent category
   @@unique([name, categoryId])
   @@map("sub_categories")
 }
 
 model Document {
-  id           String         @id @default(uuid())
-  title        String
-  description  String?        @db.Text
-  author       String?        @default("Unknown Author")
-  driveFileId  String         @unique @map("drive_file_id")
-  driveLink    String         @map("drive_link")
-  previewLink  String         @map("preview_link")
-  thumbnail    String?
-  size         Int            // File size in bytes
-  downloads    Int            @default(0)
-  views        Int            @default(0)
-  status       DocumentStatus @default(PENDING)
-  uploadedBy   String         @map("uploaded_by")
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
+  id            String         @id @default(uuid())
+  title         String
+  description   String?        @db.Text
+  author        String?        @default("Unknown Author")
+  driveFileId   String         @unique @map("drive_file_id")
+  driveLink     String         @map("drive_link")
+  previewLink   String         @map("preview_link")
+  thumbnail     String?
+  size          Int            // File size in bytes
+  downloads     Int            @default(0)
+  views         Int            @default(0)
+  status        DocumentStatus @default(PENDING)
+  uploadedBy    String         @map("uploaded_by")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
 
-  // --- ACADEMIC SPECIFIC METADATA (Optional / Nullable for general literature) ---
-  department   String[]
-  semester     String?
-  subject      String?
+  // --- ACADEMIC SPECIFIC METADATA ---
+  department    String[]
+  semester      String?
+  subject       String?
 
   // --- RELATIONSHIPS ---
-  uploader     User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
-  category     Category       @relation(fields: [categoryId], references: [id])
-  categoryId   String         @map("category_id")
-  subCategory  SubCategory?   @relation(fields: [subCategoryId], references: [id])
-  subCategoryId String?       @map("sub_category_id")
-  bookmarks    Bookmark[]
-  tags         DocumentTag[]
+  uploader      User           @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+  category      Category       @relation(fields: [categoryId], references: [id])
+  categoryId    String         @map("category_id")
+  subCategory   SubCategory?   @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String?        @map("sub_category_id")
+  bookmarks     Bookmark[]
+  tags          DocumentTag[]
 
   @@index([status, createdAt(sort: Desc)])
   @@index([semester])
