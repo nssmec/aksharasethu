@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -20,10 +21,15 @@ export async function uploadDocumentAction(formData: FormData) {
     let successfullyUploaded = false
 
     try {
-        const supabase = await createClient()
-        const { data: { user }, error: authError } = await supabase.auth.getUser()
-        if (authError || !user) throw new Error('Authentication session expired. Log in again.')
+        const session = await auth.api.getSession({
+            headers: await headers(),
+        })
 
+        if (!session) {
+            redirect('/login')
+        }
+
+        const user = session.user
         const driveUrl = formData.get('driveUrl') as string
         const title = formData.get('title') as string
         const categoryId = formData.get('categoryId') as string

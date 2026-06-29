@@ -8765,7 +8765,7 @@ export namespace Prisma {
     uploadedBy: number
     createdAt: number
     updatedAt: number
-    department: number
+    departments: number
     semester: number
     subject: number
     categoryId: number
@@ -8846,7 +8846,7 @@ export namespace Prisma {
     uploadedBy?: true
     createdAt?: true
     updatedAt?: true
-    department?: true
+    departments?: true
     semester?: true
     subject?: true
     categoryId?: true
@@ -8956,7 +8956,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt: Date
     updatedAt: Date
-    department: string[]
+    departments: string[]
     semester: string | null
     subject: string | null
     categoryId: string
@@ -8998,7 +8998,7 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    department?: boolean
+    departments?: boolean
     semester?: boolean
     subject?: boolean
     categoryId?: boolean
@@ -9027,7 +9027,7 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    department?: boolean
+    departments?: boolean
     semester?: boolean
     subject?: boolean
     categoryId?: boolean
@@ -9053,7 +9053,7 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    department?: boolean
+    departments?: boolean
     semester?: boolean
     subject?: boolean
     categoryId?: boolean
@@ -9079,14 +9079,14 @@ export namespace Prisma {
     uploadedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    department?: boolean
+    departments?: boolean
     semester?: boolean
     subject?: boolean
     categoryId?: boolean
     subCategoryId?: boolean
   }
 
-  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "author" | "driveFileId" | "driveLink" | "previewLink" | "thumbnail" | "size" | "downloads" | "views" | "status" | "uploadedBy" | "createdAt" | "updatedAt" | "department" | "semester" | "subject" | "categoryId" | "subCategoryId", ExtArgs["result"]["document"]>
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "author" | "driveFileId" | "driveLink" | "previewLink" | "thumbnail" | "size" | "downloads" | "views" | "status" | "uploadedBy" | "createdAt" | "updatedAt" | "departments" | "semester" | "subject" | "categoryId" | "subCategoryId", ExtArgs["result"]["document"]>
   export type DocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploader?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -9131,7 +9131,7 @@ export namespace Prisma {
       uploadedBy: string
       createdAt: Date
       updatedAt: Date
-      department: string[]
+      departments: string[]
       semester: string | null
       subject: string | null
       categoryId: string
@@ -9579,7 +9579,7 @@ export namespace Prisma {
     readonly uploadedBy: FieldRef<"Document", 'String'>
     readonly createdAt: FieldRef<"Document", 'DateTime'>
     readonly updatedAt: FieldRef<"Document", 'DateTime'>
-    readonly department: FieldRef<"Document", 'String[]'>
+    readonly departments: FieldRef<"Document", 'String[]'>
     readonly semester: FieldRef<"Document", 'String'>
     readonly subject: FieldRef<"Document", 'String'>
     readonly categoryId: FieldRef<"Document", 'String'>
@@ -14354,7 +14354,7 @@ export namespace Prisma {
     uploadedBy: 'uploadedBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    department: 'department',
+    departments: 'departments',
     semester: 'semester',
     subject: 'subject',
     categoryId: 'categoryId',
@@ -14948,7 +14948,7 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
-    department?: StringNullableListFilter<"Document">
+    departments?: StringNullableListFilter<"Document">
     semester?: StringNullableFilter<"Document"> | string | null
     subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
@@ -14976,7 +14976,7 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    department?: SortOrder
+    departments?: SortOrder
     semester?: SortOrderInput | SortOrder
     subject?: SortOrderInput | SortOrder
     categoryId?: SortOrder
@@ -15007,7 +15007,7 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
-    department?: StringNullableListFilter<"Document">
+    departments?: StringNullableListFilter<"Document">
     semester?: StringNullableFilter<"Document"> | string | null
     subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
@@ -15035,7 +15035,7 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    department?: SortOrder
+    departments?: SortOrder
     semester?: SortOrderInput | SortOrder
     subject?: SortOrderInput | SortOrder
     categoryId?: SortOrder
@@ -15066,7 +15066,7 @@ export namespace Prisma {
     uploadedBy?: StringWithAggregatesFilter<"Document"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
-    department?: StringNullableListFilter<"Document">
+    departments?: StringNullableListFilter<"Document">
     semester?: StringNullableWithAggregatesFilter<"Document"> | string | null
     subject?: StringNullableWithAggregatesFilter<"Document"> | string | null
     categoryId?: StringWithAggregatesFilter<"Document"> | string
@@ -15725,7 +15725,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
@@ -15751,7 +15751,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -15775,7 +15775,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -15801,7 +15801,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -15826,7 +15826,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -15848,7 +15848,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15869,7 +15869,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -16507,7 +16507,7 @@ export namespace Prisma {
     uploadedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    department?: SortOrder
+    departments?: SortOrder
     semester?: SortOrder
     subject?: SortOrder
     categoryId?: SortOrder
@@ -17090,7 +17090,7 @@ export namespace Prisma {
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
-  export type DocumentCreatedepartmentInput = {
+  export type DocumentCreatedepartmentsInput = {
     set: string[]
   }
 
@@ -17152,7 +17152,7 @@ export namespace Prisma {
     set?: $Enums.DocumentStatus
   }
 
-  export type DocumentUpdatedepartmentInput = {
+  export type DocumentUpdatedepartmentsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -17646,7 +17646,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     category: CategoryCreateNestedOneWithoutDocumentsInput
@@ -17670,7 +17670,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -17834,7 +17834,7 @@ export namespace Prisma {
     uploadedBy?: StringFilter<"Document"> | string
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
-    department?: StringNullableListFilter<"Document">
+    departments?: StringNullableListFilter<"Document">
     semester?: StringNullableFilter<"Document"> | string | null
     subject?: StringNullableFilter<"Document"> | string | null
     categoryId?: StringFilter<"Document"> | string
@@ -18082,7 +18082,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
@@ -18107,7 +18107,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     subCategoryId?: string | null
@@ -18200,7 +18200,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
@@ -18225,7 +18225,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -18573,7 +18573,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
@@ -18598,7 +18598,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -18652,7 +18652,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -18677,7 +18677,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -18832,7 +18832,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     uploader: UserCreateNestedOneWithoutDocumentsInput
@@ -18857,7 +18857,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -18937,7 +18937,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -18962,7 +18962,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -19011,7 +19011,7 @@ export namespace Prisma {
     status?: $Enums.DocumentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -19123,7 +19123,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutDocumentsNestedInput
@@ -19147,7 +19147,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -19171,7 +19171,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -19235,7 +19235,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     subCategoryId?: string | null
@@ -19273,7 +19273,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -19298,7 +19298,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19322,7 +19322,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     subCategoryId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19344,7 +19344,7 @@ export namespace Prisma {
     uploadedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    department?: DocumentCreatedepartmentInput | string[]
+    departments?: DocumentCreatedepartmentsInput | string[]
     semester?: string | null
     subject?: string | null
     categoryId: string
@@ -19365,7 +19365,7 @@ export namespace Prisma {
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     uploader?: UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -19390,7 +19390,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -19414,7 +19414,7 @@ export namespace Prisma {
     uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    department?: DocumentUpdatedepartmentInput | string[]
+    departments?: DocumentUpdatedepartmentsInput | string[]
     semester?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: StringFieldUpdateOperationsInput | string

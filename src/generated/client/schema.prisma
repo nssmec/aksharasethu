@@ -130,9 +130,9 @@ model Document {
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
   // --- ACADEMIC SPECIFIC METADATA ---
-  department String[]
-  semester   String?
-  subject    String?
+  departments String[]
+  semester    String?
+  subject     String?
 
   // --- RELATIONSHIPS ---
   uploader      User          @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)

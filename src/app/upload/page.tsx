@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useSession } from '@/lib/auth-client'
 import { uploadDocumentAction } from '@/actions/documents'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,47 +17,61 @@ const ACADEMIC_DEPARTMENTS = ['CS', 'CU', 'EC', 'EEE', 'MECH', 'EB', 'EV']
 
 export default function UploadPage() {
     const router = useRouter()
+
+    const { data: session, isPending } = useSession()
+
     const [categories, setCategories] = useState<CategoryItem[]>([])
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('')
+    const [selectedCategoryId, setSelectedCategoryId] = useState('')
     const [selectedDepts, setSelectedDepts] = useState<string[]>([])
-    const [isCheckingAuth, setIsCheckingAuth] = useState(true)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
-        const initializePage = async () => {
-            const supabase = createClient()
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) { router.push('/login'); return }
-            setIsCheckingAuth(false)
+        if (isPending) return
 
+        if (!session) {
+            router.replace('/login')
+            return
+        }
+
+        const loadCategories = async () => {
             try {
                 const res = await fetch('/api/categories')
                 const data = await res.json()
                 setCategories(data)
             } catch (err) {
-                console.error('Failed to load categories context maps:', err)
+                console.error('Failed to load categories:', err)
             }
         }
-        initializePage()
-    }, [router])
+
+        loadCategories()
+    }, [session, isPending, router])
 
     const toggleDepartment = (dept: string) => {
-        setSelectedDepts((prev) =>
-            prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
+        setSelectedDepts(prev =>
+            prev.includes(dept)
+                ? prev.filter(d => d !== dept)
+                : [...prev, dept]
         )
     }
 
-    const selectedCategoryName = categories.find(c => c.id === selectedCategoryId)?.name || ''
-    const isAcademicSelected = selectedCategoryName.toLowerCase() === 'academics'
+    const selectedCategoryName =
+        categories.find(c => c.id === selectedCategoryId)?.name || ''
 
-    if (isCheckingAuth) {
+    const isAcademicSelected =
+        selectedCategoryName.toLowerCase() === 'academics'
+
+    if (isPending) {
         return (
             <div className="min-h-[70vh] flex items-center justify-center gap-2">
                 <Loader2 className="w-5 h-5 animate-spin text-neutral-400" />
-                <span className="text-xs text-neutral-400">Verifying session context tokens...</span>
+                <span className="text-xs text-neutral-400">
+                    Verifying session...
+                </span>
             </div>
         )
     }
+
+    if (!session) return null
 
     return (
         <main className="max-w-2xl mx-auto py-16 px-6 min-h-screen bg-[#fafafa]">

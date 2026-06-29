@@ -130,7 +130,7 @@ model Document {
   updatedAt     DateTime       @updatedAt @map("updated_at")
 
   // --- ACADEMIC SPECIFIC METADATA ---
-  department    String[]
+  departments    String[]
   semester      String?
   subject       String?
 

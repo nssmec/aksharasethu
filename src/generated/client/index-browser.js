@@ -196,7 +196,7 @@ exports.Prisma.DocumentScalarFieldEnum = {
   uploadedBy: 'uploadedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  department: 'department',
+  departments: 'departments',
   semester: 'semester',
   subject: 'subject',
   categoryId: 'categoryId',
